@@ -1,0 +1,18 @@
+.table-selection *::selection {
+    background: transparent;
+    color: inherit;
+  }
+  
+  .table-selection *::-moz-selection {
+    background: transparent;
+    color: inherit;
+  }
+  
+  .table-selection td.selected {
+    background: rgba(0, 123, 255, 0.25);
+  }
+  
+  .header-card{
+      display: flex;
+      flex-direction: column;
+  }

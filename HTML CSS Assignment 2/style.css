@@ -1,0 +1,161 @@
+body {
+    font-family: "Libre Baskerville", serif;
+    background-color: #343d33;
+    padding: 96px 179px;
+    min-width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: white;
+  }
+  
+  .accent-plant {
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    z-index: -999;
+  }
+  .hero {
+    display: flex;
+    gap: 89px;
+  }
+  
+  .image {
+    width: 545px;
+    height: 534px;
+  }
+  
+  .image2 {
+    display: none;
+  }
+  
+  img {
+    object-fit: cover;
+  }
+  
+  .description {
+    width: 417px;
+  }
+  
+  h1 {
+    font-size: 45px;
+    line-height: 110%;
+    font-style: normal;
+    font-weight: 200;
+  }
+  p {
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    line-height: 150%;
+    font-weight: 200;
+  }
+  button {
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    letter-spacing: 2.1px;
+    cursor: pointer;
+  }
+  
+  @media only screen and (max-width: 1024px) {
+    body {
+      padding: 96px 105px;
+      overflow-x: hidden;
+    }
+    .hero {
+      flex-direction: column;
+      gap: 40px;
+    }
+    .image {
+      height: 534px;
+      width: 100vw;
+    }
+  
+    .image > img {
+      height: 100%;
+      width: 100%;
+    }
+  
+    .image2,
+    .image2 > img {
+      display: flex;
+      height: 354px;
+      width: 100vw;
+      object-fit: contain;
+    }
+  
+    .accent-plant {
+      height: 357px;
+      width: 342px;
+    }
+  
+    .carousal {
+      display: none;
+    }
+  
+    .description {
+      width: 500px;
+    }
+    h1 {
+      font-size: 55px;
+    }
+  }
+  @media only screen and (max-width: 575px) {
+    body {
+      padding: 56px 16px;
+      overflow-x: hidden;
+    }
+    .hero {
+      flex-direction: column;
+      gap: 40px;
+    }
+    .image {
+      height: 235px;
+      width: 100vw;
+    }
+  
+    .image > img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  
+    .image2
+     {
+      display: flex;
+      height: 148px;
+      width: 100vw;
+    }
+  
+    .image2 > img{
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  
+    .accent-plant {
+      height: 198px;
+      width: 195px;
+    }
+  
+    .carousal {
+      display: none;
+    }
+  
+    .description {
+      display: flex;
+      width: 100vw;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    h1 {
+      font-size: 45px;
+    }
+  }
+  

@@ -1,0 +1,65 @@
+body {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 26px;
+    border-radius: 26px;
+    background-color: #fff;
+    padding: 26px;
+  }
+  
+  .descriptions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 13px;
+  }
+  
+  h1 {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 124.5%;
+    letter-spacing: 0.27px;
+    cursor: pointer;
+  }
+  .date-organizer,
+  .participants {
+    color: #84829a;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 124.5%;
+    letter-spacing: 0.27px;
+  }
+  
+  .icons {
+    display: flex;
+    gap: 28px;
+  }
+  
+  .icon {
+    height: 36px;
+    width: 36px;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .participants {
+    display: flex;
+  
+    gap: 15px;
+  }
+  
