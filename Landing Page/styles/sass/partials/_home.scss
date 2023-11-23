@@ -1,0 +1,89 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 90px;
+  padding: 90px 0px;
+
+  &__left {
+    text-align: center;
+    color: $text-color;
+    h1 {
+      font-size: 24px;
+    }
+    p {
+      text-align: justify;
+      font-size: 14px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 24px;
+
+      button {
+        width: 221px;
+      }
+    }
+
+    .stats {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &__item {
+        h3 {
+          margin: 0;
+          font-size: $card-title-font-size;
+        }
+        span {
+          font-size: $thin-font-size;
+        }
+      }
+    }
+  }
+  &__right {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    position: relative;
+    width: 100%;
+
+    .mockup-container {
+      width: 40%;
+
+      .mockup {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .visa-card-container {
+      width: 65%;
+      position: absolute;
+      left: 10%;
+      bottom: 9px;
+      .visa-card {
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    .mobile-pattern-container {
+      position: absolute;
+      left: 0;
+      top: 30px;
+      width: 30%;
+      .mobile-pattern {
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    .tablet-pattern {
+      display: none;
+    }
+  }
+}

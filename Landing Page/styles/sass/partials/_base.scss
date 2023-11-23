@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap");
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: $body-text-color;
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+}
+
+ul li a {
+  color: $text-color;
+}
+
+button {
+  appearance: none;
+}
+figure {
+  margin: 0;
+  padding: 0;
+}

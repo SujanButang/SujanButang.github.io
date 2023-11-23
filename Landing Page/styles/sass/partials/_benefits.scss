@@ -1,0 +1,63 @@
+.benefits {
+  padding: 0px 46px;
+
+  h3 {
+    font-size: $card-title-font-size;
+    font-weight: 700;
+    color: $black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+  }
+
+  &cards {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+  &__card {
+    padding: 24px 16px;
+    border-radius: $card-border-radius;
+    text-align: center;
+    box-shadow: $card-box-shadow;
+
+    h3 {
+      margin: 0 0;
+      padding: 0 0;
+    }
+  }
+}
+
+@media screen and (min-width: $tablet-size) {
+  .benefits {
+    padding: 0 0;
+    &__cards {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__card {
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+      }
+    }
+  }
+}
+@media screen and (min-width: $laptop-size) {
+  .benefits {
+    padding: 0 0;
+    &__cards {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    &__card {
+      border: 1px solid rgba(29, 28, 49, 0.1);
+    }
+  }
+}

@@ -1,0 +1,29 @@
+$font-family: "Plus Jakarta Sans", sans-serif;
+
+// font sizes
+$base-font-size: 16px;
+$heading-font-size: 40px;
+$card-title-font-size: 20px;
+$buton-font-size:18px;
+$thin-font-size:12px;
+
+// colors
+$primary-color: #5d55ff;
+$black: #1d1c31;
+$body-text-color: transparentize($black, 0.6);
+$white: #ffffff;
+$link-color: $black;
+$text-color:#FFF;
+
+// spacings
+$title-margin-bottom: 40px;
+$card-items-spacing: 32px;
+
+//card border radius
+$card-border-radius: 8px;
+$card-box-shadow: 0px 24px 64px -12px rgba(26, 24, 65, 0.06);
+
+
+//screen size
+$tablet-size: 768px;
+$laptop-size: 1200px

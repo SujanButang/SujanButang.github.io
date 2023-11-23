@@ -1,0 +1,28 @@
+.btn {
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  //   default button is medium sized
+  padding: 16px 32px;
+  font-size: $buton-font-size;
+  //   small sized button
+  &.small {
+    padding: 12px 24px;
+    line-height: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: $text-color;
+  }
+
+  &.primary {
+    padding: 16px 24px;
+    color: #110c64;
+  }
+
+  &.secondary {
+    padding: 16px 24px;
+    background-color: transparent;
+    color: $white;
+    border: 1px solid $white;
+  }
+}
