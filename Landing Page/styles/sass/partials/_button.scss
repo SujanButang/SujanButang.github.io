@@ -25,4 +25,12 @@
     color: $white;
     border: 1px solid $white;
   }
+
+  &.guideline-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: $card-border-radius;
+    background-color: $white;
+    color: $black;
+  }
 }

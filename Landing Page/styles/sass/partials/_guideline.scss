@@ -1,0 +1,106 @@
+.guideline {
+  background-color: $primary-color;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $white;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+  &__container {
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__container--header {
+    display: flex;
+    align-items: center;
+
+    h3 {
+      font-size: $card-title-font-size;
+      color: $white;
+    }
+
+    .description {
+      display: none;
+    }
+  }
+
+  &__container--card {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+
+      &__card {
+        display: flex;
+        flex-direction: column;
+        padding: 24px 30px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: $card-border-radius;
+        gap: 20px;
+      }
+      &__card--row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $tablet-size) {
+  .guideline__container {
+    padding: auto 36px;
+    align-items: start;
+    .guideline__container--header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .description {
+        display: flex;
+        padding-bottom: 20px;
+        span {
+          width: 300px;
+        }
+
+        align-items: center;
+        gap: 14px;
+      }
+    }
+    .guideline__container--card {
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      justify-content: center;
+
+      .item {
+        flex-direction: column;
+        gap: 40px;
+        // font-size: $thin-font-size;
+      }
+      .item:nth-child(2),
+      .item:nth-child(4) {
+        margin-top: 250px;
+      }
+    }
+  }
+}
+@media screen and (min-width: $laptop-size) {
+  .guideline__container {
+    max-width: 1200px;
+    min-width: 1200px;
+  }
+  .guideline__container--card {
+    .item {
+      font-size: medium;
+    }
+  }
+}

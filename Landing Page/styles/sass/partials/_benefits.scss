@@ -1,7 +1,7 @@
 .benefits {
   padding: 0px 46px;
 
-  h3 {
+  &__heading {
     font-size: $card-title-font-size;
     font-weight: 700;
     color: $black;
@@ -32,6 +32,10 @@
 @media screen and (min-width: $tablet-size) {
   .benefits {
     padding: 0 0;
+
+    &__heading{
+      justify-content: start;
+    }
     &__cards {
       display: flex;
       align-items: center;

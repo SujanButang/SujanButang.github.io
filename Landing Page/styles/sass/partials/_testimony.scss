@@ -1,0 +1,145 @@
+.container {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  &__heading {
+    display: none;
+
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 40px;
+
+    h3 {
+      font-size: $card-title-font-size;
+      color: $black;
+    }
+
+    .buttons {
+      display: none;
+      align-items: center;
+      gap: 16px;
+
+      button {
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(29, 28, 49, 0.05);
+        height: 52px;
+        width: 52px;
+      }
+      button:nth-child(2) {
+        background-color: rgba(93, 85, 255, 0.1);
+      }
+
+      .left-arrow {
+        transform: rotate(180deg);
+      }
+    }
+    @media screen and (min-width: $tablet-size) {
+      display: flex;
+    }
+    @media screen and (min-width: $laptop-size) {
+      .buttons {
+        display: flex;
+      }
+    }
+  }
+  .testimonies {
+    display: none;
+
+    @media screen and (min-width: $tablet-size) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 40px;
+
+      &__card {
+        border: 1px solid rgba(29, 28, 49, 0.1);
+        border-radius: $card-border-radius;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      &__card--quote {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      &__card:first-child {
+        background-color: $primary-color;
+        color: $white;
+
+        .details {
+          h4 {
+            color: $white;
+          }
+          p {
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
+      }
+
+      .separator {
+        width: 100%;
+
+        background: rgba(29, 28, 49, 0.1);
+      }
+
+      &__card--testifier {
+        display: flex;
+
+        .details {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          h4 {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            color: $black;
+          }
+          p {
+            padding: 0;
+            margin: 0;
+            font-size: $thin-font-size;
+            color: rgba(29, 28, 49, 0.5);
+          }
+
+          .stars {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+  }
+  .carousal-slider {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    button {
+      height: 8px;
+      width: 71px;
+      transform: skew(-50deg);
+      background-color: rgba(29, 28, 49, 0.1);
+
+      border: none;
+    }
+
+    button:first-child {
+      background-color: $primary-color;
+    }
+
+    @media screen and (min-width: $laptop-size) {
+      display: flex;
+    }
+  }
+}

@@ -1,0 +1,113 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  .newsletter {
+    width: 80%;
+    &__title {
+      color: $black;
+    }
+    &__description {
+      font-size: 14px;
+    }
+    &__input {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      input {
+        border: none;
+        border-bottom: 1px solid rgba(29, 28, 49, 0.2);
+        padding: 20px 0px;
+        background-color: transparent;
+      }
+      button {
+        width: 40%;
+        background-color: $primary-color;
+        color: $white;
+      }
+    }
+  }
+  .menu {
+    display: flex;
+
+    align-items: center;
+    gap: 20%;
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      h3 {
+        color: $black;
+      }
+    }
+  }
+}
+
+.icons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  &__copyright {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+hr {
+  margin: 40px 0;
+  color: rgba(29, 28, 49, 0.10);
+}
+
+.footer {
+  @media screen and (min-width: $tablet-size) {
+    flex-direction: row;
+
+    justify-content: space-around;
+    .newsletter {
+      &__title {
+        color: $white;
+      }
+      background-color: $black;
+      color: $white;
+      padding: 24px;
+      border-radius: $card-border-radius;
+      width: 40%;
+
+      &__input {
+        flex-direction: row;
+        input {
+          border-bottom: 1px solid $white;
+        }
+        button {
+          background-color: $white;
+          color: $black;
+        }
+      }
+    }
+    .menu {
+      width: 40%;
+    }
+  }
+}
+
+@media screen and (min-width: $tablet-size) {
+  .icons {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+
+    &__copyright {
+      justify-content: space-around;
+      flex-direction: row-reverse;
+    }
+  }
+}

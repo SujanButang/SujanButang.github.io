@@ -2,7 +2,7 @@
   padding: 0 24px;
 
   @media screen and (min-width: $tablet-size) {
-    padding: 0 36px;
+    padding: auto 36px;
     .header {
       &__nav {
         display: flex;
@@ -50,7 +50,7 @@
   }
   @media screen and (min-width: $laptop-size) {
     padding: 0;
-    max-width: 1024px;
+    max-width: 1200px;
     margin: 0 auto;
 
     .home {
