@@ -1,0 +1,454 @@
+.hero {
+  .hero__navigation {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 50px;
+    padding-bottom: 32px;
+    &--logo {
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 100%;
+      }
+    }
+    &--nav {
+      display: none;
+    }
+
+    &--button {
+      display: none;
+    }
+
+    &--burger {
+      figure {
+        @include card($card-background-color, 10px, 7px 8px 7px 8px);
+      }
+    }
+
+    @media screen and (min-width: 1200px) {
+      &--nav {
+        display: flex;
+        font-size: $laptop-paragraph-font-size;
+        @include transparentFont(0.5);
+        ul {
+          display: flex;
+          align-items: center;
+          list-style: none;
+          gap: 25px;
+          font-weight: 500;
+        }
+      }
+
+      &--logo {
+        width: 25%;
+      }
+      &--button {
+        display: flex;
+        button {
+          @include customButton(
+            $primary-color,
+            $card-background-color,
+            none,
+            20px,
+            20px 26px,
+            $laptop-paragraph-font-size
+          );
+        }
+      }
+      &--burger {
+        display: none;
+      }
+    }
+  }
+  .hero__home {
+    display: flex;
+    flex-direction: column;
+
+    &--description {
+      .get-vaccinated {
+        color: $primary-color;
+        font-size: $mobile-paragraph-font-size;
+      }
+      h1 {
+        color: $text-white;
+        font-size: $mobile-header-font-size;
+        font-weight: 800;
+
+        span {
+          color: $primary-color;
+        }
+      }
+      .find-center {
+        font-size: $mobile-paragraph-font-size;
+        @include transparentFont(0.7);
+      }
+
+      .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        .get-vaccine-button {
+          @include customButton(
+            $text-white,
+            $primary-color,
+            none,
+            20px,
+            20px 25px,
+            $mobile-paragraph-font-size
+          );
+        }
+        .help-center-button {
+          @include customButton(
+            $text-white,
+            $card-background-color,
+            2px solid $primary-color,
+            20px,
+            20px 25px,
+            $mobile-paragraph-font-size
+          );
+        }
+      }
+    }
+    &--image {
+      display: flex;
+      align-items: center;
+      padding: 50px 15px;
+      margin: 0;
+      position: relative;
+
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .doctor,
+      .virus {
+        height: 50px;
+        width: 50px;
+        padding: 8px 5px;
+        border-radius: $border-radius;
+        position: absolute;
+        background-color: #fff;
+
+        left: -55px;
+
+        img {
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+      .virus {
+        left: auto;
+        right: -55px;
+      }
+
+      .doctor-cards {
+        @include card(rgba(196, 196, 196, 0.2), $border-radius, 15px 20px);
+        display: flex;
+        position: absolute;
+        bottom: 20px;
+        left: -20px;
+        width: 238px;
+        gap: 20px;
+
+        .docs {
+          display: flex;
+          align-items: center;
+          gap: -5px;
+          margin: 0;
+          img {
+            width: 38px;
+            height: 38px;
+          }
+        }
+
+        p {
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+
+          .count {
+            color: $text-white;
+          }
+
+          .specialists {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      &--description {
+        width: 60%;
+
+        .get-vaccinated,
+        .find-center {
+          font-size: $tablet-paragraph-font-size;
+        }
+
+        h1 {
+          width: 70%;
+          font-size: $tablet-header-font-size;
+        }
+
+        .buttons {
+          font-size: $tablet-paragraph-font-size;
+        }
+      }
+
+      .buttons {
+        align-items: start;
+        justify-content: start;
+        gap: 20px;
+
+        .get-vaccine-button,
+        .help-center-button {
+          font-size: $tablet-paragraph-font-size;
+        }
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      &--image {
+        .doctor,
+        .virus {
+          height: 100px;
+          width: 100px;
+        }
+
+        .doctor {
+          left: -75px;
+        }
+
+        .virus {
+          right: -75px;
+        }
+
+        .doctor-cards {
+          width: 374px;
+          font-size: $tablet-paragraph-font-size;
+
+          .docs {
+            img {
+              height: 60px;
+              width: 60px;
+            }
+          }
+        }
+      }
+    }
+    @media screen and (min-width: 1200px) {
+      flex-direction: row;
+      padding-top: 100px;
+
+      &--description {
+        gap: 40px;
+        h1 {
+          font-size: $laptop-header-font-size;
+          width: 80%;
+        }
+
+        .get-vaccinated,
+        .find-center {
+          font-size: $laptop-paragraph-font-size;
+        }
+      }
+
+      &--image {
+        padding: 0px;
+
+        .doctor-cards {
+          bottom: -30px;
+          left: -40px;
+        }
+      }
+    }
+  }
+}
+
+.appointment {
+  padding: 40px 0px 0px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100%;
+
+  &__schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 100%;
+
+    &--heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      figure {
+        @include smallIcons();
+      }
+      h3 {
+        color: $text-white;
+        font-size: $mobile-paragraph-font-size;
+      }
+    }
+
+    &--card {
+      border-radius: 10px 10px 0 0;
+      padding-top: 10px;
+      background-color: rgba(196, 196, 196, 0.05);
+      min-width: 100%;
+
+      .innercard {
+        background-color: $card-background-color;
+        display: flex;
+        flex-wrap: wrap;
+        border-radius: 10px 10px 0 0;
+        padding: 24px 10px;
+
+        &__row {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          width: 100%;
+
+          figure {
+            @include smallIcons();
+          }
+          .details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: $mobile-paragraph-font-size;
+            .detail1 {
+              @include transparentFont(0.5);
+            }
+            .detail2 {
+              color: $text-white;
+            }
+          }
+        }
+        .submit__button {
+          @include customButton(
+            $text-white,
+            $primary-color,
+            none,
+            20px,
+            20px 25px,
+            $mobile-paragraph-font-size
+          );
+          width: 40%;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    &__schedule {
+      &--heading {
+        h3 {
+          font-size: $tablet-paragraph-font-size;
+        }
+      }
+      &--card {
+        .innercard {
+          &__row {
+            width: 50%;
+            .details {
+              font-size: $tablet-paragraph-font-size;
+            }
+          }
+          .submit__button {
+            font-size: $tablet-paragraph-font-size;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    &__schedule {
+      &--heading {
+        h3 {
+          font-size: $laptop-paragraph-font-size;
+        }
+      }
+      &--card {
+        .innercard {
+          align-items: center;
+          justify-content: space-evenly;
+          &__row {
+            width: 25%;
+            .details {
+              font-size: $laptop-paragraph-font-size;
+            }
+          }
+
+          .submit__button {
+            width: auto;
+            align-self: flex-end;
+            font-size: $laptop-paragraph-font-size;
+          }
+        }
+      }
+    }
+  }
+}
+
+.carousal-container {
+  width: 100%;
+
+  background-color: rgba(255, 255, 255, 01);
+
+  @media screen and (min-width: 1200px) {
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+  }
+  .carousal {
+    padding-left: 35px;
+    padding-right: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    &__image {
+      width: 72px;
+
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      padding-left: 50px;
+      padding-right: 50px;
+
+      &__image {
+        width: 148px;
+
+        img {
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+    @media screen and (min-width: 1200px) {
+      max-width: 1300px;
+
+      &__image {
+        width: 288px;
+
+        img {
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}

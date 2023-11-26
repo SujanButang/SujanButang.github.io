@@ -1,0 +1,199 @@
+.vaccination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+  padding-bottom: 30px;
+
+  &__header {
+    font-size: $mobile-header-font-size;
+    color: $text-white;
+    width: 100%;
+  }
+  &__desc {
+    margin-top: -30px;
+    font-size: $mobile-paragraph-font-size;
+    color: rgba(255, 255, 255, 0.5);
+    width: 100%;
+    font-weight: 400;
+    font-weight: 500;
+  }
+
+  &__oval {
+    display: flex;
+    flex-direction: column;
+    @include card(rgba(196, 196, 196, 0.2), 20px 80px 20px 20px, 20px);
+
+    &--icon {
+      @include smallIcons();
+    }
+
+    h3 {
+      color: $primary-color;
+      font-size: $mobile-paragraph-font-size;
+      width: 70%;
+    }
+    p {
+      color: $text-white;
+      font-size: $mobile-thin-font-size;
+      font-weight: 500;
+    }
+    button {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      @include customButton(
+        $primary-color,
+        transparent,
+        none,
+        0,
+        0,
+        $mobile-thin-font-size
+      );
+    }
+  }
+
+  &__card {
+    @include card(transparent, 20px, 20px);
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    width: 60%;
+
+    &--icon {
+      @include smallIcons();
+      padding: 10px;
+
+      img {
+        width: 100%;
+      }
+    }
+    h3 {
+      font-size: $mobile-paragraph-font-size;
+      color: $text-white;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      @include customButton(
+        rgba(255, 255, 255, 0.5),
+        transparent,
+        none,
+        0,
+        0,
+        $mobile-thin-font-size
+      );
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    &__header {
+      font-size: $tablet-header-font-size;
+      width: 80%;
+    }
+
+    &__desc {
+      font-size: $tablet-thin-font-size;
+      width: 80%;
+    }
+
+    &__oval {
+      width: 70%;
+      padding: 40px;
+      gap: 30px;
+      &--icon {
+        height: 100px;
+        width: 100px;
+        border-radius: 30px;
+        padding: 15px;
+        img {
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      h3 {
+        font-size: $mobile-header-font-size;
+      }
+
+      p {
+        font-size: $tablet-thin-font-size;
+      }
+      button {
+        font-size: $tablet-thin-font-size;
+      }
+    }
+    &__card {
+      width: 30%;
+      padding: 40px;
+      height: 290px;
+      &--icon {
+        height: 70px;
+        width: 70px;
+        border-radius: 30px;
+        padding: 15px;
+        img {
+          height: 100%;
+          width: 100%;
+        }
+      }
+      h3 {
+        font-size: $tablet-paragraph-font-size;
+        padding: 39px 0 24px 0;
+      }
+      button {
+        font-size: $tablet-thin-font-size;
+      }
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    &__header {
+      font-size: $laptop-header-font-size;
+      width: 40%;
+    }
+
+    &__desc {
+      font-size: $tablet-thin-font-size;
+      width: 40%;
+      margin-left: 200px;
+    }
+
+    &__oval {
+      width: 35%;
+
+      h3 {
+        font-size: $mobile-header-font-size;
+      }
+
+      p {
+        font-size: $tablet-thin-font-size;
+      }
+      button {
+        font-size: $tablet-thin-font-size;
+      }
+    }
+    &__card {
+        align-self:flex-end;
+      width: 20%;
+      padding: 40px;
+      height: 290px;
+      &--icon {
+        height: 70px;
+        width: 70px;
+        border-radius: 30px;
+        padding: 15px;
+        img {
+          height: 100%;
+          width: 100%;
+        }
+      }
+      h3 {
+        font-size: $tablet-paragraph-font-size;
+        padding: 39px 0 24px 0;
+      }
+      button {
+        font-size: $tablet-thin-font-size;
+      }
+    }
+  }
+}

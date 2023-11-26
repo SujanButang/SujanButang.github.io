@@ -1,0 +1,38 @@
+.footer-wrapper {
+  align-self: self-start;
+  width: 100%;
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: start;
+    padding-top: 100px;
+    font-size: $mobile-paragraph-font-size;
+
+    &__links {
+      list-style: none;
+      color: $text-white;
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-size: $tablet-paragraph-font-size;
+      &__links {
+        flex-direction: row;
+        gap: 25px;
+      }
+    }
+
+    @media screen and (min-width: 1200px) {
+      padding-top: 300px;
+      padding-bottom: 50px;
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+      font-size: $laptop-paragraph-font-size;
+    }
+  }
+}

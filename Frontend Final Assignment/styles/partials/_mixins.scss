@@ -1,0 +1,90 @@
+@mixin card($bg-color, $border-radius, $padding) {
+  background-color: $bg-color;
+  border-radius: $border-radius;
+  padding: $padding;
+}
+
+@mixin transparentFont($transparency) {
+  color: rgba(255, 255, 255, $transparency);
+}
+
+@mixin customButton(
+  $color,
+  $background-color,
+  $border,
+  $border-radius,
+  $padding,
+  $font-size
+) {
+  color: $color;
+  background-color: $background-color;
+  border: $border;
+  border-radius: $border-radius;
+  padding: $padding;
+  font-size: $font-size;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@mixin smallIcons() {
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $card-background-color;
+  height: 30px;
+  width: 30px;
+  margin: 0;
+
+  @media screen and (min-width: 768px) {
+    height: 50px;
+    width: 50px;
+  }
+}
+
+@mixin symptomCard() {
+  @include card(rgba(196, 196, 196, 0.2), 5px, 5px 6px 5px 17px);
+  width: fit-content;
+  position: relative;
+  color: $primary-color;
+  font-size: 9px;
+  font-weight: 600;
+
+  .virus {
+    position: absolute;
+    left: -60px;
+    top: 16px;
+    img {
+      height: 30px;
+      width: 30px;
+      object-fit: cover;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    font-size: $tablet-paragraph-font-size;
+    padding: 12px 17px;
+
+    .virus {
+      left: -90px;
+      top: 35px;
+      img {
+        height: 65px;
+        width: 65px;
+      }
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    font-size: $laptop-paragraph-font-size;
+    padding: 23px 61px 23px 127px;
+
+    .virus {
+      left: -90px;
+      top: calculate-position(35px, 27px);
+      img {
+        height: 100px;
+        width: 100px;
+      }
+    }
+  }
+}

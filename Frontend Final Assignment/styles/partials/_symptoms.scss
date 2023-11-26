@@ -1,0 +1,181 @@
+.symptoms {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+
+  font-size: $mobile-paragraph-font-size;
+
+  &__subheading {
+    color: $text-white;
+  }
+
+  &__heading {
+    font-size: $mobile-header-font-size;
+    color: $text-white;
+    span {
+      color: $primary-color;
+    }
+  }
+
+  &__description {
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+    width: 60%;
+  }
+
+  &__image {
+    height: 167px;
+    width: 223px;
+    position: relative;
+    margin: 0;
+
+    @media screen and (min-width: 768px) {
+      height: 343px;
+      width: 458px;
+    }
+    @media screen and (min-width: 1200px) {
+      height: 530px;
+      width: 708px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      object-fit: cover;
+    }
+
+    &--card1 {
+      position: absolute;
+      left: 5px;
+      top: 15px;
+      .symptom {
+        @include symptomCard();
+      }
+    }
+    &--card2 {
+      position: absolute;
+      left: -30px;
+      top: 60px;
+      .symptom {
+        @include symptomCard();
+      }
+    }
+    &--card3 {
+      position: absolute;
+      left: -65px;
+      top: 110px;
+      .symptom {
+        @include symptomCard();
+      }
+    }
+
+    &--card4 {
+      position: absolute;
+      right: -40px;
+      top: 15px;
+      .symptom {
+        @include symptomCard();
+      }
+    }
+
+    &--card5 {
+      position: absolute;
+      right: -80px;
+      top: 60px;
+      .symptom {
+        @include symptomCard();
+      }
+    }
+
+    &--card6 {
+      position: absolute;
+      right: -65px;
+      top: 110px;
+      .symptom {
+        @include symptomCard();
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      &--card1 {
+        top: calculate-position(15px, 40px);
+      }
+      &--card2 {
+        top: calculate-position(60px, 85px);
+      }
+      &--card3 {
+        top: calculate-position(110px, 130px);
+      }
+
+      &--card4 {
+        top: calculate-position(15px, 40px);
+        right: calculate-position(-40px, -50px);
+      }
+      &--card5 {
+        top: calculate-position(60px, 85px);
+        right: calculate-position(-85px, -70px);
+      }
+      &--card6 {
+        top: calculate-position(110px, 130px);
+        right: calculate-position(-80px, -50px);
+      }
+    }
+    @media screen and (min-width: 1200px) {
+      &--card1 {
+        top: 90px;
+        left: -90px;
+      }
+      &--card2 {
+        top: 225px;
+        left: -175px;
+      }
+      &--card3 {
+        top: 360px;
+        left: -270px;
+      }
+
+      &--card4 {
+        top: 90px;
+        right: -210px;
+      }
+      &--card5 {
+        top: 225px;
+        right: -325px;
+      }
+      &--card6 {
+        top: 360px;
+        right: -320px;
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    font-size: $tablet-thin-font-size;
+
+    &__subheading {
+      font-size: $tablet-paragraph-font-size;
+    }
+
+    &__heading {
+      font-size: $tablet-header-font-size;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    font-size: $laptop-thin-font-size;
+
+    &__subheading {
+      font-size: $laptop-paragraph-font-size;
+    }
+
+    &__heading {
+      font-size: $laptop-header-font-size;
+    }
+  }
+}

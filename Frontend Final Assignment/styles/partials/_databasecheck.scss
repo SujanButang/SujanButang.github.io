@@ -1,0 +1,112 @@
+.covid-container {
+  width: 88%;
+}
+
+.covidcheck {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 84px;
+  padding-bottom: 84px;
+  color: $text-white;
+  font-size: $mobile-thin-font-size;
+  min-width: 100%;
+
+  &__card {
+    border-radius: $border-radius;
+    background-color: rgba(196, 196, 196, 0.1);
+    width: 100%;
+
+    &--top {
+      padding: 14px 30px;
+      border-radius: 10px 10px 0 0;
+      background-color: rgba(196, 196, 196, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &--bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 21px 32px 13px 12px;
+
+      input {
+        width: 93%;
+        height: 50px;
+        border-radius: 10px;
+        border: 3px solid rgba(196, 196, 196, 0.15);
+        background-color: transparent;
+        color: $text-white;
+        padding: 16px 23px;
+        font-size: $mobile-paragraph-font-size;
+      }
+      .name {
+        border-color: $primary-color;
+      }
+      button {
+        @include customButton(
+          $primary-color,
+          transparent,
+          3px solid $primary-color,
+          10px,
+          $button-padding,
+          $mobile-paragraph-font-size
+        );
+        width: 40%;
+        align-self: flex-start;
+        margin-left: 2px;
+      }
+    }
+    &--innercard {
+      display: flex;
+      align-items: center;
+      background-color: rgba(196, 196, 196, 0.05);
+      text-align: center;
+      justify-content: center;
+      padding: 13px 20px;
+      font-size: $mobile-thin-font-size;
+      border-radius: 10px;
+      color: $primary-color;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-size: $tablet-paragraph-font-size;
+
+      &--bottom {
+        padding: 40px 110px;
+        input {
+          font-size: $tablet-paragraph-font-size;
+        }
+        button {
+          font-size: $laptop-paragraph-font-size;
+        }
+      }
+
+      &--innercard {
+        font-size: $tablet-thin-font-size;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    font-size: $laptop-paragraph-font-size;
+
+    &__card {
+      &--bottom {
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        input {
+          width: 30%;
+        }
+        button {
+          width: 20%;
+        }
+      }
+      &--innercard {
+        width: 100%;
+      }
+    }
+  }
+}

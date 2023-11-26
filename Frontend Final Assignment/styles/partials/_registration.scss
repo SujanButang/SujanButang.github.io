@@ -1,0 +1,254 @@
+.registration-container {
+  background-color: #fff;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .registration {
+    padding: 35px 30px;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+
+    h1 {
+      display: flex;
+      align-items: center;
+      color: $text-black;
+      text-align: center;
+    }
+
+    &__card {
+      @include card(#0b153c, 15.2px, 0);
+      position: relative;
+      height: 418px;
+      width: 305px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 35px 0 35px 0;
+
+      &--vaccine {
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        margin: 0;
+        z-index: 0;
+
+        img {
+          height: 100%;
+          border-radius: 20px;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+
+      &--virus {
+        position: absolute;
+        left: -30px;
+        top: -10px;
+        margin: 0;
+        height: 70px;
+        width: 70px;
+
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+
+      h3 {
+        font-size: $mobile-paragraph-font-size;
+        color: $text-white;
+        width: 30%;
+        text-align: center;
+      }
+
+      button {
+        @include customButton(
+          $text-white,
+          rgba(196, 196, 196, 0.25),
+          none,
+          10px,
+          16px 53px,
+          $mobile-paragraph-font-size
+        );
+        z-index: 99;
+      }
+    }
+
+    &__form {
+      display: flex;
+      flex-direction: column;
+
+      font-size: $mobile-paragraph-font-size;
+
+      h1 {
+        display: none;
+      }
+
+      input {
+        padding: 16px 20px;
+        margin: 20px 0;
+        border-radius: 10px;
+        border: none;
+        background-color: rgba(11, 21, 60, 0.15);
+        color: rgba(0, 0, 0, 0.25);
+      }
+
+      p {
+        font-size: $mobile-thin-font-size;
+        font-weight: 500;
+      }
+
+      .inputs {
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+
+        .country {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          gap: 10px;
+          top: 10px;
+          left: -27px;
+          color: rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+          width: 100%;
+          padding-left: 110px;
+        }
+
+        button {
+          @include customButton(
+            $text-white,
+            $primary-color,
+            none,
+            10px,
+            20px 0px,
+            $mobile-paragraph-font-size
+          );
+          width: 40%;
+        }
+      }
+      .submit {
+        margin-top: 60px;
+        @include customButton(
+          $text-white,
+          $primary-color,
+          none,
+          10px,
+          20px 70px,
+          $mobile-paragraph-font-size
+        );
+      }
+
+      .links {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 0 40px 0;
+        .already {
+          color: rgba(0, 0, 0, 0.5);
+        }
+        .check {
+          color: $primary-color;
+          cursor: pointer;
+        }
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      padding-left: 50px;
+      padding-right: 50px;
+      justify-content: flex-start;
+      h1 {
+        text-align: left;
+        font-size: $tablet-header-font-size;
+      }
+
+      &__card {
+        width: 380px;
+        height: 550px;
+
+        &--virus {
+          height: 98px;
+          width: 98px;
+        }
+
+        h3 {
+          font-size: $tablet-paragraph-font-size;
+        }
+        button {
+          font-size: $tablet-paragraph-font-size;
+        }
+      }
+
+      &__form {
+        width: 100%;
+        font-size: $tablet-paragraph-font-size;
+        .inputs {
+          gap: 30px;
+          P {
+            font-size: $tablet-thin-font-size;
+          }
+          input {
+            width: 50%;
+          }
+          button {
+            margin: 20px 0;
+            width: 25%;
+            font-size: $tablet-paragraph-font-size;
+          }
+        }
+      }
+
+      .submit {
+        font-size: $tablet-paragraph-font-size;
+      }
+
+      .links {
+        justify-content: space-evenly;
+      }
+    }
+
+    @media screen and (min-width: 1200px) {
+      max-width: 1300px;
+      justify-content: space-between;
+
+      h1 {
+        display: none;
+      }
+      &__card {
+        order: 2;
+      }
+
+      &__form {
+        order: 1;
+        font-size: $laptop-paragraph-font-size;
+        h1 {
+          display: flex;
+          font-size: $laptop-header-font-size;
+        }
+        width: 60%;
+
+        .inputs {
+          p {
+            font-size: $laptop-thin-font-size;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    background-color: #cfd0cf;
+  }
+}
