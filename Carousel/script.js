@@ -103,10 +103,17 @@ class Carousel {
 
   startMoveInterval() {
     this.stopAutoNext();
+    // Check if an interval is already running and clear it
+    if (this.moveInterval) {
+      this.stopMoveInterval();
+    }
+
+    // Start a new interval for moving the carousel
     this.moveInterval = setInterval(() => {
       this.move();
     }, 1000 / 60);
-    this.startAutoNext();
+
+    this.startAutoNext()
   }
 
   stopMoveInterval() {
@@ -114,6 +121,12 @@ class Carousel {
   }
 
   startAutoNext(intervalTime) {
+    // Check if autoNextInterval is already running and clear it
+    if (this.autoNextInterval) {
+      this.stopAutoNext();
+    }
+
+    // Start a new interval for auto-next
     this.autoNextInterval = setInterval(() => {
       this.next();
     }, 3000);
