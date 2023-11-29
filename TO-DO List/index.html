@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>To-Do List</title>
+  </head>
+  <body>
+    <header class="container">
+      <div class="container__header">
+        <figure class="container__header--logo">
+          <img src="./assets/logo.png" alt="" />
+          TODO
+        </figure>
+        <button class="container__header--button" id="open-modal-button">
+          +
+        </button>
+      </div>
+
+      <div class="container__modal" id="modal">
+        <label for="container__modal--task">Title</label>
+        <input
+          type="text"
+          name="task"
+          placeholder="Enter your task here"
+          class="container__modal--input"
+          id="task-input"
+        />
+        <button class="container__modal--add-button" id="add-task-button">
+          Add
+        </button>
+        <button class="container__modal--cancel-button" id="close-modal">
+          Cancel
+        </button>
+      </div>
+    </header>
+    <main class="container">
+      <div class="container__card">
+        <div class="container__card--top">
+          <div class="tabs">
+            <a href="#" class="active" id="all">All Tasks</a>
+            <a href="#" id="completed">Completed</a>
+            <a href="#" id="remaining">Remaining</a>
+          </div>
+        </div>
+        <div class="container__card--tasks">
+          <ol class="lists" id="task-list"></ol>
+        </div>
+      </div>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

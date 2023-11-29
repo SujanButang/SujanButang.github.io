@@ -1,0 +1,81 @@
+.container__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  font-size: $mobile-header-font-size;
+  &--logo {
+    margin: 0;
+    font-weight: 900;
+    color: white;
+    display: flex;
+    align-items: center;
+    width: 15%;
+    img {
+      width: 100%;
+    }
+  }
+  &--button {
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.container__modal {
+  display: none;
+  height: 50%;
+  width: 80%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 999;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  &--task {
+    font-weight: 600;
+    font-size: large;
+  }
+
+  &--input {
+    padding: 20px;
+    border: 3px solid #5eb4ef;
+    border-radius: 10px;
+    width: 50%;
+  }
+
+  &--add-button {
+    color: white;
+    background-color: #5eb4ef;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  &--cancel-button {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.543);
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}

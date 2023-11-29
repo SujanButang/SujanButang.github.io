@@ -1,0 +1,13 @@
+  @import url('https://fonts.googleapis.com/css2?family=Ephesis&family=Montserrat:wght@400;600;800&display=swap');
+body {
+  font-family: "Montserrat", sans-serif;
+  background-image: url("./assets/backgroud.jpg");
+  width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center; /* Center the background image */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
