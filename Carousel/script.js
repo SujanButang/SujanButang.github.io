@@ -102,9 +102,11 @@ class Carousel {
   }
 
   startMoveInterval() {
+    this.stopAutoNext();
     this.moveInterval = setInterval(() => {
       this.move();
     }, 1000 / 60);
+    this.startAutoNext();
   }
 
   stopMoveInterval() {
