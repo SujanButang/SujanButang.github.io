@@ -1,0 +1,46 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  height: 100dvh;
+  width: 100dvw;
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+  height: 40vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+}
+
+.image {
+  margin: 0;
+  padding: 0;
+  height: 40vh;
+  width: 50vw;
+  object-fit: cover;
+}
+
+#next-button {
+  position: absolute;
+  top: 45%;
+  right: 5%;
+  cursor: pointer;
+}
+#prev-button {
+  position: absolute;
+  top: 45%;
+  cursor: pointer;
+  left: 5%;
+}

@@ -35,7 +35,7 @@ function addTask() {
     tasks.push(newTask);
     document.getElementById("task-input").value = "";
   }
-  updateTasksDisplay(tasks);
+  handleTabClick(allTab);
 }
 
 // Event listener for adding a task
