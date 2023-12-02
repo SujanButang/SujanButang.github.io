@@ -113,9 +113,9 @@ class Ball {
     const sumOfRadii = this.radius + ball.radius;
 
     if (distance < sumOfRadii) {
-      // Calculate the relative velocity components
-      const relativeVelX = this.directionLeft - ball.directionLeft;
-      const relativeVelY = this.directionTop - ball.directionTop;
+      // // Calculate the relative velocity components
+      // const relativeVelX = this.directionLeft - ball.directionLeft;
+      // const relativeVelY = this.directionTop - ball.directionTop;
 
       // Apply conservation of energy
       const newVelX1 =
