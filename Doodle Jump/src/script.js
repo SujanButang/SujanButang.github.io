@@ -33,7 +33,7 @@ const animations = {
 
 const idleImage = new Image();
 
-idleImage.src = "./assets/doodler/doodler1-right.png";
+idleImage.src = "assets/doodler/doodler1-right.png";
 
 const doodler = new Doodler(
   position,
