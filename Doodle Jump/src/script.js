@@ -110,8 +110,8 @@ function update() {
   }
 
   ctx.fillStyle = "black";
-  ctx.font = "16px sans-serif";
-  ctx.fillText(score, 80, 200);
+  ctx.font = "20px sans-serif";
+  ctx.fillText(score, 80, 150);
 
   //Game Over Logic
   if (doodler.y > CANVAS_HEIGHT) {
@@ -132,7 +132,7 @@ function update() {
       }
     }
     ctx.fillStyle = "black";
-    ctx.font = "16px sans-serif";
+    ctx.font = "24px sans-serif";
     ctx.fillText(
       "Game Over: Press 'Space' to Restart",
       CANVAS_WIDTH / 7,

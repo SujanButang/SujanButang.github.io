@@ -3,12 +3,11 @@ let moving = false;
 const keys = {
   A: false,
   D: false,
-  W: false,
-  S: false,
+
   SPACE: false,
 };
 
-window.onkeydown = (e) => {
+const handleKeyDown = (e) => {
   console.log(e.code);
   moving = true;
   switch (e.code) {
@@ -24,14 +23,13 @@ window.onkeydown = (e) => {
     case "ArrowRight":
       keys.D = true;
       break;
-
     case "Space":
       keys.SPACE = true;
       break;
   }
 };
 
-window.onkeyup = (e) => {
+const handleKeyUp = (e) => {
   moving = false;
   switch (e.code) {
     case "KeyA":
@@ -46,9 +44,27 @@ window.onkeyup = (e) => {
     case "ArrowRight":
       keys.D = false;
       break;
-
     case "Space":
       keys.SPACE = false;
       break;
   }
 };
+
+const handleDeviceOrientation = (e) => {
+  // Use e.gamma or e.beta values to determine the tilt
+  // Adjust the threshold values based on your requirements
+  if (e.gamma > 10) {
+    keys.D = true;
+    keys.A = false;
+  } else if (e.gamma < -10) {
+    keys.A = true;
+    keys.D = false;
+  } else {
+    keys.A = false;
+    keys.D = false;
+  }
+};
+
+window.addEventListener("keydown", handleKeyDown);
+window.addEventListener("keyup", handleKeyUp);
+window.addEventListener("deviceorientation", handleDeviceOrientation);
