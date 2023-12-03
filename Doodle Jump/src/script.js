@@ -33,7 +33,7 @@ const animations = {
 
 const idleImage = new Image();
 
-idleImage.src = "assets/doodler/doodler1-right.png";
+idleImage.src = "./assets/doodler/doodler1-right.png";
 
 const doodler = new Doodler(
   position,
@@ -53,7 +53,7 @@ const doodler = new Doodler(
  */
 
 function newPlatform(i) {
-  var randomX = Math.floor((Math.random() * (CANVAS_WIDTH * 3)) / 4);
+  var randomX = Math.floor((Math.random() * (CANVAS_WIDTH * 3)) / 4); //Generating random value for platform x
   return new Platform(
     {
       x: Math.floor(randomX),
@@ -68,7 +68,7 @@ function newPlatform(i) {
 }
 
 const platformImg = new Image();
-platformImg.src = "../assets/platform/platform.png";
+platformImg.src = "./assets/platform/platform.png";
 
 const platform = new Platform(
   { x: CANVAS_WIDTH / 2 - 115 / 2, y: CANVAS_HEIGHT - 90 },
@@ -91,6 +91,9 @@ platformImg.addEventListener("load", () => {
 
 window.addEventListener("keydown", doodler.moveDoodler.bind(doodler));
 
+/**
+ * Game Loop
+ */
 function update() {
   requestAnimationFrame(update);
 

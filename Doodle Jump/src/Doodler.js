@@ -96,7 +96,7 @@ class Doodler {
       if (this.detectCollision(this, platform) && this.velocityY >= 0) {
         
         //Play jump sound effect on each collision
-        const jump = new Audio("/assets/audio/jump.mp3");
+        const jump = new Audio("./assets/audio/jump.mp3");
         jump.play();
 
         this.velocityY = -9; // jump
