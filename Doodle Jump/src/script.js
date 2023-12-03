@@ -24,16 +24,16 @@ const position = {
 // Images for changing doodler's direction
 const animations = {
   faceLeft: {
-    imageSrc: "../assets/doodler/doodler1-left.png",
+    imageSrc: "./assets/doodler/doodler1-left.png",
   },
   faceRight: {
-    imageSrc: "../assets/doodler/doodler1-right.png",
+    imageSrc: "./assets/doodler/doodler1-right.png",
   },
 };
 
 const idleImage = new Image();
 
-idleImage.src = "../assets/doodler/doodler1-right.png";
+idleImage.src = "./assets/doodler/doodler1-right.png";
 
 const doodler = new Doodler(
   position,
@@ -114,7 +114,7 @@ function update() {
   if (doodler.y > CANVAS_HEIGHT) {
     gameOver = true;
     if (!gameOverSoundPlayed) {
-      const gameOver = new Audio("../assets/audio/gameover.mp3");
+      const gameOver = new Audio("./assets/audio/gameover.mp3");
       gameOver.play();
       gameOverSoundPlayed = true;
     }
