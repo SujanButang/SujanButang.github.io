@@ -13,6 +13,7 @@ var score = 0;
 var maxScore = 0;
 
 var gameReset = false;
+var highestScore = localStorage.getItem("highest-score") || 0;
 /**
  * Doodler
  */
@@ -105,6 +106,10 @@ function update() {
     if (score < maxScore) {
       score = maxScore;
     }
+    if (score > highestScore) {
+      highestScore = score;
+      localStorage.setItem("highest-score", highestScore);
+    }
   } else if (doodler.velocityY >= 0) {
     maxScore -= points;
   }
@@ -133,6 +138,12 @@ function update() {
     }
     ctx.fillStyle = "black";
     ctx.font = "24px sans-serif";
+    ctx.fillText("Your Score: " + score, CANVAS_WIDTH / 4, CANVAS_HEIGHT / 2);
+    ctx.fillText(
+      "Highest Score: " + highestScore,
+      CANVAS_WIDTH / 4,
+      CANVAS_HEIGHT / 2 + 40
+    );
     ctx.fillText(
       "Game Over: Press 'Space' to Restart",
       CANVAS_WIDTH / 7,
