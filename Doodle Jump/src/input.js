@@ -9,6 +9,7 @@ const keys = {
 };
 
 window.onkeydown = (e) => {
+  console.log(e.code);
   moving = true;
   switch (e.code) {
     case "KeyA":
@@ -17,12 +18,13 @@ window.onkeydown = (e) => {
     case "KeyD":
       keys.D = true;
       break;
-    case "KeyW":
-      keys.W = true;
+    case "ArrowLeft":
+      keys.A = true;
       break;
-    case "KeyS":
-      keys.S = true;
+    case "ArrowRight":
+      keys.D = true;
       break;
+
     case "Space":
       keys.SPACE = true;
       break;
@@ -38,12 +40,13 @@ window.onkeyup = (e) => {
     case "KeyD":
       keys.D = false;
       break;
-    case "KeyW":
-      keys.W = false;
+    case "ArrowLeft":
+      keys.A = false;
       break;
-    case "KeyS":
-      keys.S = false;
+    case "ArrowRight":
+      keys.D = false;
       break;
+
     case "Space":
       keys.SPACE = false;
       break;

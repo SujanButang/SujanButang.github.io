@@ -94,7 +94,12 @@ class Doodler {
 
     for (const platform of visiblePlatforms) {
       if (this.detectCollision(this, platform) && this.velocityY >= 0) {
-        this.velocityY = -10; // jump
+        
+        //Play jump sound effect on each collision
+        const jump = new Audio("/assets/audio/jump.mp3");
+        jump.play();
+
+        this.velocityY = -9; // jump
       }
       platform.drawPlatform();
     }
@@ -107,7 +112,7 @@ class Doodler {
       doodler.x <= platform.x + platform.width / 2 && // doodler's top left corner doesn't reach platform's top right corner
       doodler.x + doodler.width / 2 >= platform.x && // doodler's top right corner passes platform's top left corner
       doodler.y <= platform.y + platform.height && // doodler's top left corner doesn't reach platform's bottom left corner
-      doodler.y + doodler.height >= platform.y   &&
+      doodler.y + doodler.height >= platform.y &&
       doodler.velocityY >= 0 // doodler is moving downward
     );
   };

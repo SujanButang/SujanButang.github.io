@@ -17,17 +17,20 @@ class Platform {
    * Draw the platforms on the screen
    */
   drawPlatform = () => {
-    ctx.drawImage(
-      this.imageSrc,
-      2,
-      2,
-      this.width,
-      this.height,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
+    try {
+      ctx.drawImage(
+        this.imageSrc,
+        2,
+        2,
+        this.width,
+        this.height,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
+    } catch (error) {
+    }
   };
 
   updatePlatform = () => {
@@ -35,11 +38,27 @@ class Platform {
     //platforms
     if (
       this.doodler.velocityY < 0 &&
-      this.doodler.y < (CANVAS_HEIGHT * 3) / 4
+      this.doodler.y < CANVAS_HEIGHT * (3 / 4)
     ) {
       this.y -= -8;
     }
 
+    // Check if the platform is out of the canvas
+    if (this.y >= CANVAS_HEIGHT) {
+      // Remove the platform instance from the array
+      const index = platformArray.indexOf(this);
+      if (index !== -1) {
+        platformArray.splice(index, 1);
+
+        const newPlatformInstance = newPlatform();
+        platformArray.push(newPlatformInstance);
+      }
+    }
+
     this.drawPlatform();
+  };
+
+  cleanUp = () => {
+    this.imageSrc = null;
   };
 }
