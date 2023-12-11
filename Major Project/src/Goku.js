@@ -52,10 +52,107 @@ export class Goku extends Fighter {
       //STANDING KICK
       ["kick-1", [[2, 1991, 161, 149], PushBox.IDLE]],
       ["kick-2", [[165, 1991, 161, 149], PushBox.IDLE, [25, -100, 55, 20]]],
-      ["kick-3", [[328, 1991, 161, 149], PushBox.IDLE, [25, -100, 55,20]]],
+      ["kick-3", [[328, 1991, 161, 149], PushBox.IDLE, [25, -100, 55, 20]]],
       ["kick-4", [[491, 1991, 161, 149], PushBox.IDLE]],
       ["kick-5", [[654, 1991, 161, 149], PushBox.IDLE]],
       ["kick-6", [[817, 1991, 161, 149], PushBox.IDLE]],
+
+      //punchCombo-1
+      ["punchCombo1-1", [[2, 3536, 148, 124], PushBox.IDLE]],
+      ["punchCombo1-2", [[152, 3536, 148, 124], PushBox.IDLE]],
+      ["punchCombo1-3", [[302, 3536, 148, 124], PushBox.IDLE]],
+      [
+        "punchCombo1-4",
+        [[452, 3536, 148, 124], PushBox.IDLE, [20, -120, 49, 25]],
+        ,
+      ],
+      [
+        "punchCombo1-5",
+        [[602, 3536, 148, 124], PushBox.IDLE, [20, -120, 30, 25]],
+      ],
+      ["punchCombo1-6", [[752, 3536, 148, 124], PushBox.IDLE]],
+
+      //punchCombo-2
+      ["punchCombo2-1", [[2, 3976, 101, 154], PushBox.IDLE]],
+      [
+        "punchCombo2-2",
+        [[105, 3976, 101, 154], PushBox.IDLE, [5, -120, 40, 50]],
+      ],
+      [
+        "punchCombo2-3",
+        [[208, 3976, 101, 154], PushBox.IDLE, [5, -120, 40, 50]],
+      ],
+      [
+        "punchCombo2-4",
+        [[311, 3976, 101, 154], PushBox.IDLE, [5, -120, 40, 50]],
+      ],
+      ["punchCombo2-5", [[414, 3976, 101, 154], PushBox.IDLE]],
+      ["punchCombo2-6", [[517, 3976, 101, 154], PushBox.IDLE]],
+
+      //punchCombo-3
+      ["punchCombo3-1", [[2, 4134, 142, 122], PushBox.IDLE]],
+      ["punchCombo3-2", [[146, 4134, 142, 122], PushBox.IDLE]],
+      [
+        "punchCombo3-3",
+        [[290, 4134, 142, 122], PushBox.IDLE, [20, -80, 50, 20]],
+      ],
+      [
+        "punchCombo3-4",
+        [[434, 4134, 142, 122], PushBox.IDLE, [20, -80, 50, 20]],
+      ],
+      [
+        "punchCombo3-5",
+        [[578, 4134, 142, 122], PushBox.IDLE, [20, -80, 50, 20]],
+      ],
+      ["punchCombo3-6", [[722, 4134, 142, 122], PushBox.IDLE]],
+
+      //punchCombo-4
+      ["punchCombo4-1", [[2, 4260, 158, 157], PushBox.IDLE]],
+      ["punchCombo4-2", [[162, 4260, 158, 157], PushBox.IDLE]],
+      ["punchCombo4-3", [[322, 4260, 158, 157], PushBox.IDLE]],
+      [
+        "punchCombo4-4",
+        [[482, 4260, 158, 157], PushBox.IDLE, [30, -100, 50, 25]],
+      ],
+      [
+        "punchCombo4-5",
+        [[642, 4260, 158, 157], PushBox.IDLE, [30, -100, 50, 25]],
+      ],
+      ["punchCombo4-6", [[802, 4260, 158, 157], PushBox.IDLE]],
+
+      //Jumping Punch
+      ["jumpPunch-1", [[2, 2489, 151, 138], PushBox.JUMP]],
+      ["jumpPunch-2", [[155, 2489, 151, 138], PushBox.JUMP]],
+      ["jumpPunch-3", [[308, 2489, 151, 138], PushBox.JUMP]],
+      ["jumpPunch-4", [[461, 2489, 151, 138], PushBox.JUMP]],
+
+      //Jumping Kick
+      ["jumpKick-1", [[2, 2631, 152, 150], PushBox.JUMP]],
+      ["jumpKick-2", [[156, 2631, 152, 150], PushBox.JUMP]],
+      ["jumpKick-3", [[310, 2631, 152, 150], PushBox.JUMP]],
+      ["jumpKick-4", [[464, 2631, 152, 150], PushBox.JUMP]],
+      ["jumpKick-5", [[618, 2631, 152, 150], PushBox.JUMP]],
+      ["jumpKick-6", [[772, 2631, 152, 150], PushBox.JUMP]],
+
+      //Crouching Punch
+      ["crouchPunch-1", [[2, 2277, 134, 106], PushBox.CROUCH]],
+      ["crouchPunch-2", [[138, 2277, 134, 106], PushBox.CROUCH]],
+      ["crouchPunch-3", [[274, 2277, 134, 106], PushBox.CROUCH]],
+      ["crouchPunch-4", [[410, 2277, 134, 106], PushBox.CROUCH]],
+
+      //Crouching Kick
+      ["crouchKick-1", [[2, 2387, 177, 98], PushBox.CROUCH]],
+      ["crouchKick-2", [[181, 2387, 177, 98], PushBox.CROUCH]],
+      ["crouchKick-3", [[360, 2387, 177, 98], PushBox.CROUCH]],
+      ["crouchKick-4", [[539, 2387, 177, 98], PushBox.CROUCH]],
+      ["crouchKick-5", [[718, 2387, 177, 98], PushBox.CROUCH]],
+      ["crouchKick-6", [[897, 2387, 177, 98], PushBox.CROUCH]],
+
+      //Ki Recharge
+      ["kiRecharge-1", [[2, 5040, 128, 162], PushBox.IDLE]],
+      ["kiRecharge-2", [[132, 5040, 128, 162], PushBox.IDLE]],
+      ["kiRecharge-3", [[262, 5040, 128, 162], PushBox.IDLE]],
+      ["kiRecharge-4", [[392, 5040, 128, 162], PushBox.IDLE]],
     ]);
 
     this.animations = {
@@ -95,6 +192,72 @@ export class Goku extends Fighter {
         "kick-4",
         "kick-5",
         "kick-6",
+      ],
+      [fighterState.PUNCHCOMBO1]: [
+        "punchCombo1-1",
+        "punchCombo1-2",
+        "punchCombo1-3",
+        "punchCombo1-4",
+        "punchCombo1-5",
+        "punchCombo1-6",
+      ],
+      [fighterState.PUNCHCOMBO2]: [
+        "punchCombo2-1",
+        "punchCombo2-2",
+        "punchCombo2-3",
+        "punchCombo2-4",
+        "punchCombo2-5",
+        "punchCombo2-6",
+      ],
+      [fighterState.PUNCHCOMBO3]: [
+        "punchCombo3-1",
+        "punchCombo3-2",
+        "punchCombo3-3",
+        "punchCombo3-4",
+        "punchCombo3-5",
+        "punchCombo3-6",
+      ],
+      [fighterState.PUNCHCOMBO4]: [
+        "punchCombo4-1",
+        "punchCombo4-2",
+        "punchCombo4-3",
+        "punchCombo4-4",
+        "punchCombo4-5",
+        "punchCombo4-6",
+      ],
+      [fighterState.JUMPPUNCH]: [
+        "jumpPunch-1",
+        "jumpPunch-2",
+        "jumpPunch-3",
+        "jumpPunch-4",
+      ],
+      [fighterState.JUMPKICK]: [
+        "jumpKick-1",
+        "jumpKick-2",
+        "jumpKick-3",
+        "jumpKick-4",
+        "jumpKick-5",
+        "jumpKick-6",
+      ],
+      [fighterState.CROUCHPUNCH]: [
+        "crouchPunch-1",
+        "crouchPunch-2",
+        "crouchPunch-3",
+        "crouchPunch-4",
+      ],
+      [fighterState.CROUCHKICK]: [
+        "crouchKick-1",
+        "crouchKick-2",
+        "crouchKick-3",
+        "crouchKick-4",
+        "crouchKick-5",
+        "crouchKick-6",
+      ],
+      [fighterState.KIRECHARGE]: [
+        "kiRecharge-1",
+        "kiRecharge-2",
+        "kiRecharge-3",
+        "kiRecharge-4",
       ],
     };
 

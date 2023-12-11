@@ -5,7 +5,6 @@ const pressedKeys = new Set();
 export function registerKeyboardEvents() {
   window.addEventListener("keydown", (event) => {
     event.preventDefault();
-    console.log(event.code);
 
     pressedKeys.add(event.code);
   });
@@ -26,8 +25,11 @@ export const isRight = (id) =>
 export const isUp = (id) => isKeyPressed(controls[id].keyboard[control.UP]);
 export const isDown = (id) => isKeyPressed(controls[id].keyboard[control.DOWN]);
 
-export const isPunch = (id)=>isKeyPressed(controls[id].keyboard[control.PUNCH]);
-export const isKick = (id)=>isKeyPressed(controls[id].keyboard[control.KICK]);
+export const isPunch = (id) =>
+  isKeyPressed(controls[id].keyboard[control.PUNCH]);
+export const isKick = (id) => isKeyPressed(controls[id].keyboard[control.KICK]);
+export const isKiRecharge = (id) =>
+  isKeyPressed(controls[id].keyboard[control.KIRECHARGE]);
 
 export const isForward = (id, direction) =>
   direction === fighterDirection.RIGHT ? isRight(id) : isLeft(id);

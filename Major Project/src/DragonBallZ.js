@@ -2,20 +2,21 @@ import { Stage } from "./Stage.js";
 import { Goku } from "./Goku.js";
 import { STAGE_FLOOR, fighterDirection } from "./constants.js";
 import { Vegeta } from "./Vegeta.js";
-
+import { Fire } from "./Fire.js";
 export class DragonBallZ {
   constructor() {
     this.context = this.getContext();
-    this.fighters = [];
-
-    this.entities = [
-      new Stage(),
-      new Vegeta(250, STAGE_FLOOR, fighterDirection.LEFT, 1),
-      new Goku(80, STAGE_FLOOR, fighterDirection.RIGHT, 0),
+    this.fighters = [
+      new Vegeta(250, STAGE_FLOOR, fighterDirection.LEFT, 1, this.fire),
+      new Goku(80, STAGE_FLOOR, fighterDirection.RIGHT, 0, this.fire),
     ];
+
+    this.entities = [new Stage(), ...this.fighters];
 
     this.entities[1].opponent = this.entities[2];
     this.entities[2].opponent = this.entities[1];
+    this.entities[1].fire = new Fire();
+    this.entities[2].fire = new Fire();
 
     //To maintain constant fps
     this.frameTime = {
@@ -27,19 +28,20 @@ export class DragonBallZ {
   getContext() {
     const canvas = document.querySelector("canvas");
     const ctx = canvas.getContext("2d");
+
     ctx.imageSmoothingEnabled = false;
     return ctx;
   }
 
   update() {
     for (const entity of this.entities) {
-      entity.update(this.frameTime, this.context);
+      entity.update(this.frameTime, this.context, this.camera);
     }
   }
 
   draw() {
     for (const entity of this.entities) {
-      entity.draw(this.context);
+      entity.draw(this.context, this.camera);
     }
   }
 
@@ -52,6 +54,7 @@ export class DragonBallZ {
 
     this.update();
     this.draw();
+    // this.fire.draw(this.context);
   }
 
   start() {

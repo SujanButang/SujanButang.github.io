@@ -5,6 +5,11 @@ export const fighterDirection = {
   RIGHT: -1,
 };
 
+export const attackType = {
+  PUNCH: "punch",
+  KICK: "kick",
+};
+
 export const fighterState = {
   IDLE: "idle",
   WALKFORWARD: "walkforward",
@@ -13,6 +18,15 @@ export const fighterState = {
   CROUCH: "crouch",
   PUNCH: "punch",
   KICK: "kick",
+  PUNCHCOMBO1:'punchCombo1',
+  PUNCHCOMBO2:'punchCombo2',
+  PUNCHCOMBO3:'punchCombo3',
+  PUNCHCOMBO4:'punchCombo4',
+  JUMPPUNCH:'jumpPunch',
+  JUMPKICK:'jumpKick',
+  CROUCHPUNCH:'crouchPunch',
+  CROUCHKICK:'crouchKick',
+  KIRECHARGE:'kiRecharge'
 };
 
 export const control = {
@@ -20,8 +34,9 @@ export const control = {
   RIGHT: "right",
   UP: "up",
   DOWN: "down",
-  PUNCH:'punch',
-  KICK:'kick'
+  PUNCH: "punch",
+  KICK: "kick",
+  KIRECHARGE:'kiRecharge'
 };
 
 export const controls = [
@@ -31,8 +46,9 @@ export const controls = [
       [control.RIGHT]: "KeyD",
       [control.UP]: "KeyW",
       [control.DOWN]: "KeyS",
-      [control.PUNCH]:'KeyJ',
-      [control.KICK]:'KeyK'
+      [control.PUNCH]: "KeyJ",
+      [control.KICK]: "KeyK",
+      [control.KIRECHARGE]:'KeyI'
     },
   },
   {
@@ -41,6 +57,8 @@ export const controls = [
       [control.RIGHT]: "ArrowRight",
       [control.UP]: "ArrowUp",
       [control.DOWN]: "ArrowDown",
+      [control.PUNCH]: "Slash",
+      [control.KICK]: "Quote",
     },
   },
 ];
