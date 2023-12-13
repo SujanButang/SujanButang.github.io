@@ -31,6 +31,9 @@ export const isKick = (id) => isKeyPressed(controls[id].keyboard[control.KICK]);
 export const isKiRecharge = (id) =>
   isKeyPressed(controls[id].keyboard[control.KIRECHARGE]);
 
+export const isEnergyBall = (id) =>
+  isKeyPressed(controls[id].keyboard[control.ENERGYBALL]);
+
 export const isForward = (id, direction) =>
   direction === fighterDirection.RIGHT ? isRight(id) : isLeft(id);
 export const isBackward = (id, direction) =>

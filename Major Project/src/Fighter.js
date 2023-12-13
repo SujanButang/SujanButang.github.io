@@ -27,6 +27,8 @@ export class Fighter {
     this.initialVelocity = { jump: -350 };
     this.attackLanded = false;
     this.fire;
+    this.health;
+    this.healthBarPosition;
 
     this.opponent;
 
@@ -86,6 +88,12 @@ export class Fighter {
         init: this.handlePunchCombo4Init.bind(this),
         update: this.handlePunchCombo4State.bind(this),
       },
+      [fighterState.KICKCOMBO1]: {
+        attackType: attackType.KICK,
+        init: this.handleKickCombo1Init.bind(this),
+        update: this.handleKickCombo1State.bind(this),
+      },
+
       [fighterState.JUMPPUNCH]: {
         attackType: attackType.PUNCH,
         init: this.handleJumpPunchInit.bind(this),
@@ -109,6 +117,10 @@ export class Fighter {
       [fighterState.KIRECHARGE]: {
         init: this.handleKiRechargeInit.bind(this),
         update: this.handleKiRechargeState.bind(this),
+      },
+      [fighterState.ENERGYBALL]: {
+        init: this.handleEnergyBallInit.bind(this),
+        update: this.handleEnergyBallState.bind(this),
       },
     };
     this.changeState(fighterState.IDLE);
@@ -171,7 +183,6 @@ export class Fighter {
     if (!this.states[this.currentState].attackType) return;
     const hitBoxScreenDimension = getActualBoxDimensions(
       this.position,
-
       this.direction,
       this.boxes.hit
     );
@@ -181,6 +192,9 @@ export class Fighter {
       this.opponent.direction,
       this.opponent.boxes.push
     );
+
+    // console.log("hit",hitBoxScreenDimension)
+    // console.log("push",opponentPushBoxScreenDimension)
     if (!boxOverlaps(hitBoxScreenDimension, opponentPushBoxScreenDimension))
       return;
     this.attackLanded = true;
@@ -215,10 +229,11 @@ export class Fighter {
     if (control.isKick(this.playerId)) this.changeState(fighterState.KICK);
     if (control.isKiRecharge(this.playerId))
       this.changeState(fighterState.KIRECHARGE);
+    if (control.isEnergyBall(this.playerId))
+      this.changeState(fighterState.ENERGYBALL);
   }
 
   handleWalkForwardInit() {
-    console.log("forward");
     this.velocity.x = -60 * this.direction;
   }
   handleWalkForwardState() {
@@ -231,7 +246,6 @@ export class Fighter {
   }
 
   handleWalkBackwardInit() {
-    console.log("backward");
     this.velocity.x = 60 * this.direction;
   }
   handleWalkBackwardState() {
@@ -280,11 +294,13 @@ export class Fighter {
   handlePunchState() {
     if (
       this.attackLanded &&
-      this.animationFrame >= this.animations[this.currentState].length - 1 &&
-      control.isPunch(this.playerId)
+      this.animationFrame >= this.animations[this.currentState].length - 1
     ) {
+      this.opponent.health -= 5;
       this.attackLanded = false;
-      this.changeState(fighterState.PUNCHCOMBO1);
+      if (control.isPunch(this.playerId)) {
+        this.changeState(fighterState.PUNCHCOMBO1);
+      }
     } else if (
       !control.isPunch(this.playerId) &&
       this.animationFrame >= this.animations[this.currentState].length - 1
@@ -297,10 +313,20 @@ export class Fighter {
 
   handleKickState() {
     if (
+      this.attackLanded &&
+      this.animationFrame >= this.animations[this.currentState].length - 1
+    ) {
+      this.opponent.health -= 5;
+      this.attackLanded = false;
+      if (control.isKick(this.playerId)) {
+        this.changeState(fighterState.KICKCOMBO1);
+      }
+    } else if (
       !control.isKick(this.playerId) &&
-      this.animationFrame == this.animations[this.currentState].length - 1
-    )
+      this.animationFrame >= this.animations[this.currentState].length - 1
+    ) {
       this.changeState(fighterState.IDLE);
+    }
   }
 
   handlePunchCombo1Init() {}
@@ -311,6 +337,7 @@ export class Fighter {
       this.animationFrame >= this.animations[this.currentState].length - 1 &&
       control.isPunch(this.playerId)
     ) {
+      this.opponent.health -= 5;
       this.attackLanded = false;
       this.changeState(fighterState.PUNCHCOMBO2);
     } else if (
@@ -328,6 +355,7 @@ export class Fighter {
       this.animationFrame >= this.animations[this.currentState].length - 1 &&
       control.isPunch(this.playerId)
     ) {
+      this.opponent.health -= 5;
       this.attackLanded = false;
       this.changeState(fighterState.PUNCHCOMBO3);
     } else if (
@@ -345,6 +373,7 @@ export class Fighter {
       this.animationFrame >= this.animations[this.currentState].length - 1 &&
       control.isPunch(this.playerId)
     ) {
+      this.opponent.health -= 5;
       this.attackLanded = false;
       this.changeState(fighterState.PUNCHCOMBO4);
     } else if (
@@ -358,6 +387,17 @@ export class Fighter {
 
   handlePunchCombo4State() {
     if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      this.opponent.health -= 5;
+      this.attackLanded = false;
+      this.changeState(fighterState.IDLE);
+    }
+  }
+
+  handleKickCombo1Init() {}
+
+  handleKickCombo1State() {
+    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      this.opponent.health -= 5;
       this.attackLanded = false;
       this.changeState(fighterState.IDLE);
     }
@@ -404,10 +444,18 @@ export class Fighter {
   handleKiRechargeInit() {}
 
   handleKiRechargeState(frameTime, ctx) {
-    this.fire.setPosition({ x: this.position.x, y: this.position.y });
+    this.fire.setPosition({ x: 200, y: 200 });
     this.fire.draw(ctx);
     if (!control.isKiRecharge(this.playerId))
       this.changeState(fighterState.IDLE);
+  }
+
+  handleEnergyBallInit() {}
+
+  handleEnergyBallState() {
+    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      this.changeState(fighterState.CROUCH);
+    }
   }
 
   /**
@@ -480,6 +528,7 @@ export class Fighter {
   }
 
   update(frameTime, ctx) {
+    // console.log(this.opponent.health);
     this.position.x += this.velocity.x * frameTime.secondsPassed;
     this.position.y += this.velocity.y * frameTime.secondsPassed;
 
@@ -538,10 +587,6 @@ export class Fighter {
   }
 
   draw(ctx) {
-    // if (this.name === "Vegeta" && this.currentState == "punch")
-    //   console.log(
-    // this.animationFrame
-    //   );
     const [[x, y, width, height]] = this.frames.get(
       this.animations[this.currentState][this.animationFrame]
     );
@@ -556,5 +601,54 @@ export class Fighter {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
     this.drawDebug(ctx);
+    this.drawHealthBar(ctx);
+    this.drawKiBar(ctx);
+  }
+
+  drawHealthBar(ctx) {
+    if (this.healthBarPosition == "left") {
+      ctx.font = "12px serif";
+      ctx.fillText(this.name, 20, 25);
+      ctx.strokeStyle = "gray";
+
+      ctx.strokeRect(20, 30, 150, 10);
+
+      if (this.health >= 0) {
+        ctx.fillStyle = "green";
+        ctx.fillRect(20, 30, this.health, 10);
+      }
+    } else {
+      ctx.font = "12px serif";
+      ctx.fillText(this.name, ctx.canvas.width - 20 - 35, 25);
+
+      ctx.strokeStyle = "gray";
+      ctx.strokeRect(ctx.canvas.width - 20 - 150, 30, 150, 10);
+
+      if (this.health >= 0) {
+        ctx.fillStyle = "green";
+        ctx.fillRect(ctx.canvas.width - 20 - this.health, 30, this.health, 10);
+      }
+    }
+  }
+
+  drawKiBar(ctx) {
+    if (this.healthBarPosition == "left") {
+      ctx.strokeStyle = "gray";
+
+      ctx.strokeRect(20, 50, 100, 10);
+
+      if (this.health >= 0) {
+        ctx.fillStyle = "blue";
+        ctx.fillRect(20, 50, this.health, 10);
+      }
+    } else {
+      ctx.strokeStyle = "gray";
+      ctx.strokeRect(ctx.canvas.width - 20 - 150, 50, 100, 10);
+
+      if (this.health >= 0) {
+        ctx.fillStyle = "green";
+        ctx.fillRect(ctx.canvas.width - 20 - this.health, 50, this.health, 10);
+      }
+    }
   }
 }

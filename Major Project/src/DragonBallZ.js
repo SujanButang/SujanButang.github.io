@@ -6,11 +6,11 @@ import { Fire } from "./Fire.js";
 export class DragonBallZ {
   constructor() {
     this.context = this.getContext();
-    this.fighters = [
-      new Vegeta(250, STAGE_FLOOR, fighterDirection.LEFT, 1, this.fire),
-      new Goku(80, STAGE_FLOOR, fighterDirection.RIGHT, 0, this.fire),
-    ];
 
+    this.fighters = [
+      new Goku(80, STAGE_FLOOR, fighterDirection.LEFT, 1, "left"),
+      new Vegeta(250, STAGE_FLOOR, fighterDirection.LEFT, 0, "right"),
+    ];
     this.entities = [new Stage(), ...this.fighters];
 
     this.entities[1].opponent = this.entities[2];
@@ -54,7 +54,6 @@ export class DragonBallZ {
 
     this.update();
     this.draw();
-    // this.fire.draw(this.context);
   }
 
   start() {

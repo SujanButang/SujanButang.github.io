@@ -30,8 +30,12 @@ export function boxOverlaps(box1, box2) {
 }
 
 export function getActualBoxDimensions(position, direction, box) {
-  const x1 = position.x - box.x * direction;
-  const x2 = x1 - box.width * direction;
+  const x1 =
+    direction == 1
+      ? position.x + box.x * direction
+      : position.x - box.x * direction;
+  const x2 =
+    direction == 1 ? x1 + box.width * direction : x1 - box.width * direction;
 
   return {
     x: Math.min(x1, x2),

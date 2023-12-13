@@ -2,7 +2,7 @@ import { Fighter } from "./Fighter.js";
 import { PushBox, fighterState } from "./constants.js";
 
 export class Goku extends Fighter {
-  constructor(x, y, direction, playerId) {
+  constructor(x, y, direction, playerId, healthBarPosition) {
     super("Goku", x, y, direction, playerId);
     this.image = document.querySelector('img[alt="goku"]');
     this.frames = new Map([
@@ -120,9 +120,23 @@ export class Goku extends Fighter {
       ],
       ["punchCombo4-6", [[802, 4260, 158, 157], PushBox.IDLE]],
 
+      //KICK COMBO 1
+      ["kickCombo1-1", [[2, 3224, 159, 153], PushBox.IDLE]],
+      ["kickCombo1-2", [[163, 3224, 159, 153], PushBox.IDLE]],
+      [
+        "kickCombo1-3",
+        [[324, 3224, 159, 153], PushBox.IDLE, [15, -110, 55, 20]],
+      ],
+      [
+        "kickCombo1-4",
+        [[485, 3224, 159, 153], PushBox.IDLE, [15, -110, 55, 20]],
+      ],
+      ["kickCombo1-5", [[646, 3224, 159, 153], PushBox.IDLE]],
+      ["kickCombo1-6", [[807, 3224, 159, 153], PushBox.IDLE]],
+
       //Jumping Punch
       ["jumpPunch-1", [[2, 2489, 151, 138], PushBox.JUMP]],
-      ["jumpPunch-2", [[155, 2489, 151, 138], PushBox.JUMP]],
+      ["jumpPunch-2", [[155, 2489, 151, 138], PushBox.JUMP, [15, -50, 55, 20]]],
       ["jumpPunch-3", [[308, 2489, 151, 138], PushBox.JUMP]],
       ["jumpPunch-4", [[461, 2489, 151, 138], PushBox.JUMP]],
 
@@ -130,21 +144,33 @@ export class Goku extends Fighter {
       ["jumpKick-1", [[2, 2631, 152, 150], PushBox.JUMP]],
       ["jumpKick-2", [[156, 2631, 152, 150], PushBox.JUMP]],
       ["jumpKick-3", [[310, 2631, 152, 150], PushBox.JUMP]],
-      ["jumpKick-4", [[464, 2631, 152, 150], PushBox.JUMP]],
+      ["jumpKick-4", [[464, 2631, 152, 150], PushBox.JUMP, [15, -110, 55, 90]]],
       ["jumpKick-5", [[618, 2631, 152, 150], PushBox.JUMP]],
       ["jumpKick-6", [[772, 2631, 152, 150], PushBox.JUMP]],
 
       //Crouching Punch
       ["crouchPunch-1", [[2, 2277, 134, 106], PushBox.CROUCH]],
-      ["crouchPunch-2", [[138, 2277, 134, 106], PushBox.CROUCH]],
-      ["crouchPunch-3", [[274, 2277, 134, 106], PushBox.CROUCH]],
+      [
+        "crouchPunch-2",
+        [[138, 2277, 134, 106], PushBox.CROUCH, [20, -80, 49, 13]],
+      ],
+      [
+        "crouchPunch-3",
+        [[274, 2277, 134, 106], PushBox.CROUCH, [20, -80, 49, 13]],
+      ],
       ["crouchPunch-4", [[410, 2277, 134, 106], PushBox.CROUCH]],
 
       //Crouching Kick
       ["crouchKick-1", [[2, 2387, 177, 98], PushBox.CROUCH]],
       ["crouchKick-2", [[181, 2387, 177, 98], PushBox.CROUCH]],
-      ["crouchKick-3", [[360, 2387, 177, 98], PushBox.CROUCH]],
-      ["crouchKick-4", [[539, 2387, 177, 98], PushBox.CROUCH]],
+      [
+        "crouchKick-3",
+        [[360, 2387, 177, 98], PushBox.CROUCH, [30, -55, 55, 20]],
+      ],
+      [
+        "crouchKick-4",
+        [[539, 2387, 177, 98], PushBox.CROUCH, [30, -55, 55, 20]],
+      ],
       ["crouchKick-5", [[718, 2387, 177, 98], PushBox.CROUCH]],
       ["crouchKick-6", [[897, 2387, 177, 98], PushBox.CROUCH]],
 
@@ -153,6 +179,14 @@ export class Goku extends Fighter {
       ["kiRecharge-2", [[132, 5040, 128, 162], PushBox.IDLE]],
       ["kiRecharge-3", [[262, 5040, 128, 162], PushBox.IDLE]],
       ["kiRecharge-4", [[392, 5040, 128, 162], PushBox.IDLE]],
+
+      //ENERGY BALL
+      ["energyBall-1", [[2, 2144, 128, 129], PushBox.IDLE]],
+      ["energyBall-2", [[132, 2144, 128, 129], PushBox.IDLE]],
+      ["energyBall-3", [[262, 2144, 128, 129], PushBox.IDLE]],
+      ["energyBall-4", [[392, 2144, 128, 129], PushBox.IDLE]],
+      ["energyBall-5", [[522, 2144, 128, 129], PushBox.IDLE]],
+      ["energyBall-6", [[652, 2144, 128, 129], PushBox.IDLE]],
     ]);
 
     this.animations = {
@@ -225,6 +259,14 @@ export class Goku extends Fighter {
         "punchCombo4-5",
         "punchCombo4-6",
       ],
+      [fighterState.KICKCOMBO1]: [
+        "kickCombo1-1",
+        "kickCombo1-2",
+        "kickCombo1-3",
+        "kickCombo1-4",
+        "kickCombo1-5",
+        "kickCombo1-6",
+      ],
       [fighterState.JUMPPUNCH]: [
         "jumpPunch-1",
         "jumpPunch-2",
@@ -259,10 +301,21 @@ export class Goku extends Fighter {
         "kiRecharge-3",
         "kiRecharge-4",
       ],
+
+      [fighterState.ENERGYBALL]: [
+        "energyBall-1",
+        "energyBall-2",
+        "energyBall-3",
+        "energyBall-4",
+        "energyBall-5",
+        "energyBall-6",
+      ],
     };
 
     this.initialVelocity = {
       jump: -350,
     };
+    this.health = 150;
+    this.healthBarPosition = healthBarPosition;
   }
 }

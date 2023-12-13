@@ -24,14 +24,18 @@ export class Fire {
     // context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     context.drawImage(
       this.image,
-      frame[0],
-      frame[1],
-      frame[2],
-      frame[3],
-      this.position.x,
-      this.position.y,
-      frame[2],
-      frame[3]
+      // frame[0],
+      // frame[1],
+      // frame[2],
+      // frame[3],
+      // this.position.x,
+      // this.position.y,
+      // frame[2],
+      // frame[3]
+      0,
+      0,
+      context.canvas.width,
+      context.canvas.height
     );
     console.log("drawn");
   }

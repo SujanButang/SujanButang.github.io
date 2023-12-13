@@ -18,15 +18,17 @@ export const fighterState = {
   CROUCH: "crouch",
   PUNCH: "punch",
   KICK: "kick",
-  PUNCHCOMBO1:'punchCombo1',
-  PUNCHCOMBO2:'punchCombo2',
-  PUNCHCOMBO3:'punchCombo3',
-  PUNCHCOMBO4:'punchCombo4',
-  JUMPPUNCH:'jumpPunch',
-  JUMPKICK:'jumpKick',
-  CROUCHPUNCH:'crouchPunch',
-  CROUCHKICK:'crouchKick',
-  KIRECHARGE:'kiRecharge'
+  PUNCHCOMBO1: "punchCombo1",
+  PUNCHCOMBO2: "punchCombo2",
+  PUNCHCOMBO3: "punchCombo3",
+  PUNCHCOMBO4: "punchCombo4",
+  KICKCOMBO1: "kickCombo1",
+  JUMPPUNCH: "jumpPunch",
+  JUMPKICK: "jumpKick",
+  CROUCHPUNCH: "crouchPunch",
+  CROUCHKICK: "crouchKick",
+  KIRECHARGE: "kiRecharge",
+  ENERGYBALL: "energyBall",
 };
 
 export const control = {
@@ -36,7 +38,8 @@ export const control = {
   DOWN: "down",
   PUNCH: "punch",
   KICK: "kick",
-  KIRECHARGE:'kiRecharge'
+  KIRECHARGE: "kiRecharge",
+  ENERGYBALL: "energyBall",
 };
 
 export const controls = [
@@ -48,7 +51,8 @@ export const controls = [
       [control.DOWN]: "KeyS",
       [control.PUNCH]: "KeyJ",
       [control.KICK]: "KeyK",
-      [control.KIRECHARGE]:'KeyI'
+      [control.KIRECHARGE]: "KeyI",
+      [control.ENERGYBALL]: "KeyL",
     },
   },
   {
