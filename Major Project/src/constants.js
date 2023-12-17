@@ -10,6 +10,9 @@ export const attackType = {
   KICK: "kick",
 };
 
+/**
+ * Fighter State Look Up object
+ */
 export const fighterState = {
   IDLE: "idle",
   WALKFORWARD: "walkforward",
@@ -29,8 +32,29 @@ export const fighterState = {
   CROUCHKICK: "crouchKick",
   KIRECHARGE: "kiRecharge",
   ENERGYBALL: "energyBall",
+  HURT1: "hurt1",
+  HURT2: "hurt2",
+  HURT3: "hurt3",
+  HURT4: "hurt4",
+  STANDINGBLOCK: "standingBlock",
+  CROUCHINGBLOCK: "crouchingBlock",
+  FALL: "fall",
+  CROUCHHURT1: "crouchHurt1",
+  CROUCHHURT2: "crouchHurt2",
+  ULTIMATE: "ultimate",
 };
 
+export const UltimateState = {
+  ACTIVE: "active",
+};
+export const UltimateCollidedState = {
+  NONE: "none",
+  OPPONENT: "opponent",
+};
+
+/**
+ * Control lookup object
+ */
 export const control = {
   LEFT: "left",
   RIGHT: "right",
@@ -40,6 +64,10 @@ export const control = {
   KICK: "kick",
   KIRECHARGE: "kiRecharge",
   ENERGYBALL: "energyBall",
+  BLOCK: "block",
+  ULTIMATE: "ultimate",
+  RESTART: "restart",
+  MENU: "menu",
 };
 
 export const controls = [
@@ -52,7 +80,11 @@ export const controls = [
       [control.PUNCH]: "KeyJ",
       [control.KICK]: "KeyK",
       [control.KIRECHARGE]: "KeyI",
-      [control.ENERGYBALL]: "KeyL",
+      // [control.ENERGYBALL]: "KeyL",
+      [control.BLOCK]: "KeyB",
+      // [control.ULTIMATE]: "KeyU",
+      [control.RESTART]: "Space",
+      [control.MENU]: "Escape",
     },
   },
   {
@@ -63,6 +95,8 @@ export const controls = [
       [control.DOWN]: "ArrowDown",
       [control.PUNCH]: "Slash",
       [control.KICK]: "Quote",
+      [control.BLOCK]: "Period",
+      [control.KIRECHARGE]: "Semicolon",
     },
   },
 ];

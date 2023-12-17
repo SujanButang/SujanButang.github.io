@@ -2,9 +2,29 @@ import { Fighter } from "./Fighter.js";
 import { PushBox, fighterState } from "./constants.js";
 
 export class Vegeta extends Fighter {
+  attackSounds = {
+    [fighterState.PUNCH]: document.querySelector("audio#vegeta-hit-1"),
+    [fighterState.KICK]: document.querySelector("audio#vegeta-hit-1"),
+    [fighterState.PUNCHCOMBO1]: document.querySelector("audio#vegeta-hit-2"),
+    [fighterState.PUNCHCOMBO2]: document.querySelector("audio#vegeta-hit-3"),
+    [fighterState.PUNCHCOMBO3]: document.querySelector("audio#vegeta-hit-4"),
+    [fighterState.KICKCOMBO1]: document.querySelector("audio#vegeta-hit-4"),
+
+    [fighterState.HURT1]: document.querySelector("audio#vegeta-hurt-1"),
+    [fighterState.HURT2]: document.querySelector("audio#vegeta-hurt-2"),
+    [fighterState.HURT3]: document.querySelector("audio#vegeta-hurt-3"),
+
+    [fighterState.CROUCHHURT1]: document.querySelector("audio#vegeta-hurt-1"),
+    [fighterState.CROUCHHURT2]: document.querySelector("audio#vegeta-hurt-2"),
+
+    [fighterState.FALL]: document.querySelector("audio#vegeta-fall"),
+    [fighterState.KIRECHARGE]: document.querySelector("audio#vegeta-ki"),
+  };
+
   constructor(x, y, direction, playerId, healthBarPosition) {
     super("Vegeta", x, y, direction, playerId);
     this.image = document.querySelector('img[alt="vegeta"]');
+    this.CPUControlled = true;
     this.frames = new Map([
       //IDLE
       ["idle-1", [[2, 375, 87, 112], PushBox.IDLE]],
@@ -124,14 +144,23 @@ export class Vegeta extends Fighter {
 
       //CROUCHING KICK
       ["crouchKick-1", [[2, 2282, 144, 101], PushBox.CROUCH]],
-      ["crouchKick-2", [[148, 2282, 144, 101], PushBox.CROUCH]],
-      ["crouchKick-3", [[294, 2282, 144, 101], PushBox.CROUCH]],
+      [
+        "crouchKick-2",
+        [[148, 2282, 144, 101], PushBox.CROUCH, [10, -50, 55, 20]],
+      ],
+      [
+        "crouchKick-3",
+        [[294, 2282, 144, 101], PushBox.CROUCH, [10, -50, 55, 20]],
+      ],
       ["crouchKick-4", [[440, 2282, 144, 101], PushBox.CROUCH]],
 
       //CROUCHING PUNCH
       ["crouchPunch-1", [[2, 2387, 162, 101], PushBox.CROUCH]],
       ["crouchPunch-2", [[166, 2387, 162, 101], PushBox.CROUCH]],
-      ["crouchPunch-3", [[330, 2387, 162, 101], PushBox.CROUCH]],
+      [
+        "crouchPunch-3",
+        [[330, 2387, 162, 101], PushBox.CROUCH, [30, -25, 55, 20]],
+      ],
       ["crouchPunch-4", [[494, 2387, 162, 101], PushBox.CROUCH]],
       ["crouchPunch-5", [[658, 2387, 162, 101], PushBox.CROUCH]],
       ["crouchPunch-6", [[822, 2387, 162, 101], PushBox.CROUCH]],
@@ -139,8 +168,8 @@ export class Vegeta extends Fighter {
 
       //JUMP PUNCH
       ["jumpPunch-1", [[2, 2492, 101, 127], PushBox.JUMP]],
-      ["jumpPunch-2", [[105, 2492, 101, 127], PushBox.JUMP]],
-      ["jumpPunch-3", [[208, 2492, 101, 127], PushBox.JUMP]],
+      ["jumpPunch-2", [[105, 2492, 101, 127], PushBox.JUMP, [20, -70, 25, 40]]],
+      ["jumpPunch-3", [[208, 2492, 101, 127], PushBox.JUMP, [20, -70, 25, 40]]],
       ["jumpPunch-4", [[311, 2492, 101, 127], PushBox.JUMP]],
 
       //JUMP KICK
@@ -148,7 +177,7 @@ export class Vegeta extends Fighter {
       ["jumpKick-2", [[140, 2623, 136, 123], PushBox.JUMP]],
       ["jumpKick-3", [[278, 2623, 136, 123], PushBox.JUMP]],
       ["jumpKick-4", [[416, 2623, 136, 123], PushBox.JUMP]],
-      ["jumpKick-5", [[554, 2623, 136, 123], PushBox.JUMP]],
+      ["jumpKick-5", [[554, 2623, 136, 123], PushBox.JUMP, [20, -70, 45, 40]]],
       ["jumpKick-6", [[692, 2623, 136, 123], PushBox.JUMP]],
 
       //KI RECHARGE
@@ -160,6 +189,54 @@ export class Vegeta extends Fighter {
       ["kiRecharge-6", [[457, 7034, 89, 141], PushBox.IDLE]],
       ["kiRecharge-7", [[548, 7034, 89, 141], PushBox.IDLE]],
       ["kiRecharge-8", [[639, 7034, 89, 141], PushBox.IDLE]],
+
+      //HURT1
+      ["hurt1-1", [[2, 5926, 99, 116]]],
+      ["hurt1-2", [[103, 5926, 99, 116]]],
+      ["hurt1-3", [[204, 5926, 99, 116]]],
+      ["hurt1-4", [[305, 5926, 99, 116]]],
+
+      //HURT2
+      ["hurt2-1", [[2, 6046, 88, 118]]],
+      ["hurt2-2", [[92, 6046, 88, 118]]],
+
+      //HURT3
+      ["hurt3-1", [[2, 6168, 90, 113]]],
+      ["hurt3-2", [[94, 6168, 90, 113]]],
+
+      //HURT4
+      ["hurt4-1", [[377, 6592, 123, 99]]],
+      ["hurt4-2", [[252, 6592, 123, 99]]],
+      ["hurt4-3", [[2, 6592, 123, 99]]],
+      ["hurt4-4", [[127, 6592, 123, 99]]],
+
+      //CROUCH HURT 1
+      ["crouchHurt1-1", [[2, 6396, 130, 99]]],
+      ["crouchHurt1-2", [[134, 6396, 130, 99]]],
+
+      //CROUCH HURT 2
+      ["crouchHurt2-1", [[2, 6499, 116, 89]]],
+      ["crouchHurt2-2", [[120, 6499, 116, 89]]],
+
+      //FALL
+      ["fall-1", [[2, 6932, 153, 98]]],
+      ["fall-2", [[157, 6932, 153, 98]]],
+      ["fall-3", [[312, 6932, 153, 98]]],
+      ["fall-4", [[467, 6932, 153, 98]]],
+      ["fall-5", [[622, 6932, 153, 98]]],
+      ["fall-6", [[777, 6932, 153, 98]]],
+      ["fall-7", [[932, 6932, 153, 98]]],
+      ["fall-8", [[1087, 6932, 153, 98]]],
+
+      //STANDING BLOCK
+      ["standingBlock-1", [[2, 723, 87, 119]]],
+      ["standingBlock-2", [[91, 723, 87, 119]]],
+      ["standingBlock-3", [[180, 723, 87, 119]]],
+
+      //CROUCHING BLOCK
+      ["crouchingBlock-1", [[2, 846, 83, 105]]],
+      ["crouchingBlock-2", [[87, 846, 83, 105]]],
+      ["crouchingBlock-3", [[172, 846, 83, 105]]],
     ]);
 
     this.animations = {
@@ -269,6 +346,32 @@ export class Vegeta extends Fighter {
         "kiRecharge-7",
         "kiRecharge-8",
       ],
+      [fighterState.HURT1]: ["hurt1-1", "hurt1-2", "hurt1-3", "hurt1-4"],
+      [fighterState.HURT2]: ["hurt2-1", "hurt2-2"],
+      [fighterState.HURT3]: ["hurt3-1", "hurt3-2"],
+      [fighterState.HURT4]: ["hurt4-1", "hurt4-2", "hurt4-3", "hurt4-4"],
+      [fighterState.FALL]: [
+        "fall-1",
+        "fall-2",
+        "fall-3",
+        "fall-4",
+        "fall-5",
+        "fall-6",
+        "fall-7",
+        "fall-8",
+      ],
+      [fighterState.STANDINGBLOCK]: [
+        "standingBlock-1",
+        "standingBlock-2",
+        "standingBlock-3",
+      ],
+      [fighterState.CROUCHINGBLOCK]: [
+        "crouchingBlock-1",
+        "crouchingBlock-2",
+        "crouchingBlock-3",
+      ],
+      [fighterState.CROUCHHURT1]: ["crouchHurt1-1", "crouchHurt1-2"],
+      [fighterState.CROUCHHURT2]: ["crouchHurt2-1", "crouchHurt2-2"],
     };
 
     this.initialVelocity = {
@@ -276,6 +379,7 @@ export class Vegeta extends Fighter {
     };
 
     this.health = 150;
+    this.ki = 0;
 
     this.healthBarPosition = healthBarPosition;
   }

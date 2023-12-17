@@ -3,14 +3,32 @@ import { Goku } from "./Goku.js";
 import { STAGE_FLOOR, fighterDirection } from "./constants.js";
 import { Vegeta } from "./Vegeta.js";
 import { Fire } from "./Fire.js";
+import { Gohan } from "./Gohan.js";
 export class DragonBallZ {
   constructor() {
+    this.selected = localStorage.getItem("selected");
+    this.opponent = localStorage.getItem("opponent");
     this.context = this.getContext();
+    const selectedFighterClass = this.getFighterClass(this.selected);
+    const opponentFighterClass = this.getFighterClass(this.opponent);
 
     this.fighters = [
-      new Goku(80, STAGE_FLOOR, fighterDirection.LEFT, 1, "left"),
-      new Vegeta(250, STAGE_FLOOR, fighterDirection.LEFT, 0, "right"),
+      new selectedFighterClass(
+        80,
+        STAGE_FLOOR,
+        fighterDirection.LEFT,
+        0,
+        "left"
+      ),
+      new opponentFighterClass(
+        250,
+        STAGE_FLOOR,
+        fighterDirection.LEFT,
+        1,
+        "right"
+      ),
     ];
+
     this.entities = [new Stage(), ...this.fighters];
 
     this.entities[1].opponent = this.entities[2];
@@ -58,5 +76,20 @@ export class DragonBallZ {
 
   start() {
     window.requestAnimationFrame(this.frame.bind(this));
+  }
+
+  getFighterClass(fighterName) {
+    switch (fighterName) {
+      case "Goku":
+        return Goku;
+        
+      case "Vegeta":
+        return Vegeta;
+
+      case "Gohan":
+        return Gohan;
+      default:
+        throw new Error(`Unknown fighter: ${fighterName}`);
+    }
   }
 }

@@ -12,6 +12,14 @@ import {
 import * as control from "./input.js";
 
 export class Fighter {
+  /**
+   *
+   * @param {String} name
+   * @param {number} x
+   * @param {number} y
+   * @param {string} direction
+   * @param {number} playerId
+   */
   constructor(name, x, y, direction, playerId) {
     this.name = name;
     this.image = new Image();
@@ -29,8 +37,12 @@ export class Fighter {
     this.fire;
     this.health;
     this.healthBarPosition;
+    this.ki;
+    this.gameOver = false;
 
     this.opponent;
+    this.CPUControlled;
+    this.animationCompleted = false;
 
     this.boxes = {
       push: { x: 0, y: 0, width: 0, height: 0 },
@@ -122,10 +134,51 @@ export class Fighter {
         init: this.handleEnergyBallInit.bind(this),
         update: this.handleEnergyBallState.bind(this),
       },
+      [fighterState.HURT1]: {
+        init: this.handleHurt1Init.bind(this),
+        update: this.handleHurt1State.bind(this),
+      },
+      [fighterState.HURT2]: {
+        init: this.handleHurt2Init.bind(this),
+        update: this.handleHurt2State.bind(this),
+      },
+      [fighterState.HURT3]: {
+        init: this.handleHurt3Init.bind(this),
+        update: this.handleHurt3State.bind(this),
+      },
+      [fighterState.HURT4]: {
+        init: this.handleHurt4Init.bind(this),
+        update: this.handleHurt4State.bind(this),
+      },
+      [fighterState.STANDINGBLOCK]: {
+        init: this.handleStandingBlockInit.bind(this),
+        update: this.handleStandingBlockState.bind(this),
+      },
+      [fighterState.CROUCHINGBLOCK]: {
+        init: this.handleCrouchingBlockInit.bind(this),
+        update: this.handleCrouchingBlockState.bind(this),
+      },
+      [fighterState.FALL]: {
+        init: this.handleFallInit.bind(this),
+        update: this.handleFallState.bind(this),
+      },
+      [fighterState.CROUCHHURT1]: {
+        init: this.handleCrouchHurt1Init.bind(this),
+        update: this.handleCrouchHurt1State.bind(this),
+      },
+      [fighterState.CROUCHHURT2]: {
+        init: this.handleCrouchHurt2Init.bind(this),
+        update: this.handleCrouchHurt2State.bind(this),
+      },
     };
     this.changeState(fighterState.IDLE);
   }
 
+  /**
+   * Gets the direction of a fighter
+   *
+   * @returns number
+   */
   getDirection() {
     if (
       this.position.x + this.boxes.push.x + this.boxes.push.width <=
@@ -141,9 +194,14 @@ export class Fighter {
       return fighterDirection.LEFT;
     }
     return this.direction;
-    ddd;
   }
 
+  /**
+   * Extract the Push Boxes and HitBoxes of a fighter
+   *
+   * @param {string} frameKey
+   * @returns Object
+   */
   getBoxes(frameKey) {
     const [
       ,
@@ -166,6 +224,11 @@ export class Fighter {
     };
   }
 
+  /**
+   * Checking if fighter collided with opponent fighter
+   *
+   * @returns boolean
+   */
   hasCollidedWithOpponent() {
     return rectangleOverlaps(
       this.position.x + this.boxes.push.x,
@@ -179,6 +242,13 @@ export class Fighter {
     );
   }
 
+  /**
+   * Checking if the hitbox and the pushbox collided
+   * and determining if the attack landed or not
+   *
+   * @param {Object} frameTime
+   * @returns void
+   */
   updateAttackBoxCollided(frameTime) {
     if (!this.states[this.currentState].attackType) return;
     const hitBoxScreenDimension = getActualBoxDimensions(
@@ -192,21 +262,25 @@ export class Fighter {
       this.opponent.direction,
       this.opponent.boxes.push
     );
-
-    // console.log("hit",hitBoxScreenDimension)
-    // console.log("push",opponentPushBoxScreenDimension)
     if (!boxOverlaps(hitBoxScreenDimension, opponentPushBoxScreenDimension))
       return;
     this.attackLanded = true;
-    console.log(this.name + " has hit " + this.opponent.name);
   }
 
+  /**
+   * Changing the state of the fighter
+   *
+   * @param {string} newState
+   */
   changeState(newState) {
     this.currentState = newState;
     this.animationFrame = 0;
     this.states[this.currentState].init.call(this);
   }
 
+  /**
+   * Initializing the Idle state
+   */
   handleIdleInit() {
     this.velocity.x = 0;
     this.velocity.y = 0;
@@ -229,13 +303,29 @@ export class Fighter {
     if (control.isKick(this.playerId)) this.changeState(fighterState.KICK);
     if (control.isKiRecharge(this.playerId))
       this.changeState(fighterState.KIRECHARGE);
-    if (control.isEnergyBall(this.playerId))
+
+    if (control.isEnergyBall(this.playerId) && this.ki >= 5)
       this.changeState(fighterState.ENERGYBALL);
+
+    if (control.isBlock(this.playerId))
+      this.changeState(fighterState.STANDINGBLOCK);
+
+    if (control.isUltimate(this.playerId)) {
+      this.changeState(fighterState.ULTIMATE);
+    }
   }
 
+  /**
+   * Initializing the walking forward state
+   */
   handleWalkForwardInit() {
     this.velocity.x = -60 * this.direction;
   }
+
+  /**
+   * Chack the control while in walking state and
+   * update state as necessary
+   */
   handleWalkForwardState() {
     if (!control.isForward(this.playerId, this.direction))
       this.changeState(fighterState.IDLE);
@@ -260,6 +350,7 @@ export class Fighter {
 
   handleJumpInit() {
     this.velocity.y = this.initialVelocity.jump;
+    this.attackSounds[fighterState.PUNCH].play();
   }
 
   handleJumpState(frameTime) {
@@ -287,16 +378,26 @@ export class Fighter {
       this.changeState(fighterState.CROUCHPUNCH);
     if (control.isKick(this.playerId))
       this.changeState(fighterState.CROUCHKICK);
+    if (control.isBlock(this.playerId))
+      this.changeState(fighterState.CROUCHINGBLOCK);
   }
 
-  handlePunchInit() {}
+  handlePunchInit() {
+    this.attackSounds[fighterState.PUNCH].play();
+  }
 
   handlePunchState() {
     if (
       this.attackLanded &&
-      this.animationFrame >= this.animations[this.currentState].length - 1
+      this.animationFrame >= this.animations[this.currentState].length - 1 &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
     ) {
       this.opponent.health -= 5;
+      this.opponent.changeState(fighterState.HURT2);
+      if (this.ki <= 100) {
+        this.ki += 3;
+      }
       this.attackLanded = false;
       if (control.isPunch(this.playerId)) {
         this.changeState(fighterState.PUNCHCOMBO1);
@@ -309,18 +410,29 @@ export class Fighter {
     }
   }
 
-  handleKickInit() {}
+  handleKickInit() {
+    this.attackSounds[fighterState.KICK].play();
+  }
 
   handleKickState() {
     if (
       this.attackLanded &&
-      this.animationFrame >= this.animations[this.currentState].length - 1
+      this.animationFrame >= this.animations[this.currentState].length - 1 &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
     ) {
-      this.opponent.health -= 5;
+      this.opponent.health -= 10;
       this.attackLanded = false;
+      this.opponent.changeState(fighterState.HURT2);
+      if (this.ki <= 100) {
+        this.ki += 3;
+      }
+
+      //if attack landed and control is still down change state to the next combo
       if (control.isKick(this.playerId)) {
         this.changeState(fighterState.KICKCOMBO1);
       }
+      if (!control.isKick(this.playerId)) this.changeState(fighterState.IDLE);
     } else if (
       !control.isKick(this.playerId) &&
       this.animationFrame >= this.animations[this.currentState].length - 1
@@ -329,15 +441,23 @@ export class Fighter {
     }
   }
 
-  handlePunchCombo1Init() {}
+  handlePunchCombo1Init() {
+    this.attackSounds[fighterState.PUNCHCOMBO1].play();
+  }
 
   handlePunchCombo1State() {
     if (
       this.attackLanded &&
       this.animationFrame >= this.animations[this.currentState].length - 1 &&
-      control.isPunch(this.playerId)
+      control.isPunch(this.playerId) &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
     ) {
       this.opponent.health -= 5;
+      if (this.ki <= 100) {
+        this.ki += 3;
+      }
+      this.opponent.changeState(fighterState.HURT2);
       this.attackLanded = false;
       this.changeState(fighterState.PUNCHCOMBO2);
     } else if (
@@ -347,15 +467,24 @@ export class Fighter {
       this.changeState(fighterState.IDLE);
     }
   }
-  handlePunchCombo2Init() {}
+  handlePunchCombo2Init() {
+    this.attackSounds[fighterState.PUNCHCOMBO2].play();
+  }
 
   handlePunchCombo2State() {
     if (
       this.attackLanded &&
       this.animationFrame >= this.animations[this.currentState].length - 1 &&
-      control.isPunch(this.playerId)
+      control.isPunch(this.playerId) &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
     ) {
       this.opponent.health -= 5;
+      if (this.ki <= 100) {
+        this.ki += 3;
+      }
+      this.opponent.changeState(fighterState.HURT3);
+
       this.attackLanded = false;
       this.changeState(fighterState.PUNCHCOMBO3);
     } else if (
@@ -365,15 +494,24 @@ export class Fighter {
       this.changeState(fighterState.IDLE);
     }
   }
-  handlePunchCombo3Init() {}
+  handlePunchCombo3Init() {
+    this.attackSounds[fighterState.PUNCHCOMBO3].play();
+  }
 
   handlePunchCombo3State() {
     if (
       this.attackLanded &&
       this.animationFrame >= this.animations[this.currentState].length - 1 &&
-      control.isPunch(this.playerId)
+      control.isPunch(this.playerId) &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
     ) {
       this.opponent.health -= 5;
+      this.opponent.changeState(fighterState.HURT2);
+
+      if (this.ki <= 100) {
+        this.ki += 3;
+      }
       this.attackLanded = false;
       this.changeState(fighterState.PUNCHCOMBO4);
     } else if (
@@ -383,27 +521,51 @@ export class Fighter {
       this.changeState(fighterState.IDLE);
     }
   }
-  handlePunchCombo4Init() {}
+  handlePunchCombo4Init() {
+    this.attackSounds[fighterState.PUNCHCOMBO4].play();
+  }
 
   handlePunchCombo4State() {
-    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
-      this.opponent.health -= 5;
+    if (
+      this.animationFrame >= this.animations[this.currentState].length - 1 &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
+    ) {
+      this.opponent.health -= 10;
+      if (this.ki <= 100) {
+        this.ki += 3;
+      }
+      this.opponent.changeState(fighterState.HURT4);
+
       this.attackLanded = false;
       this.changeState(fighterState.IDLE);
     }
   }
 
-  handleKickCombo1Init() {}
+  handleKickCombo1Init() {
+    this.attackSounds[fighterState.KICKCOMBO1aad].play();
+  }
 
   handleKickCombo1State() {
-    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
-      this.opponent.health -= 5;
+    if (
+      this.animationFrame >= this.animations[this.currentState].length - 1 &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
+    ) {
+      this.opponent.health -= 15;
+      this.opponent.changeState(fighterState.HURT4);
+      if (this.ki <= 100) {
+        this.ki += 3;
+      }
+
       this.attackLanded = false;
       this.changeState(fighterState.IDLE);
     }
   }
 
-  handleJumpPunchInit() {}
+  handleJumpPunchInit() {
+    this.attackSounds[fighterState.PUNCHCOMBO1].play();
+  }
 
   handleJumpPunchState(frameTime) {
     this.velocity.y += this.gravity * frameTime.secondsPassed;
@@ -413,9 +575,25 @@ export class Fighter {
       this.velocity.y = 0;
       this.changeState(fighterState.IDLE);
     }
+    if (
+      this.attackLanded &&
+      this.animationFrame >= this.animations[this.currentState].length - 1 &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
+    ) {
+      this.opponent.health -= 3;
+      this.opponent.changeState(fighterState.HURT2);
+
+      if (this.ki <= 100) {
+        this.ki += 1;
+      }
+      this.attackLanded = false;
+    }
   }
 
-  handleJumpKickInit() {}
+  handleJumpKickInit() {
+    this.attackSounds[fighterState.PUNCHCOMBO2].play();
+  }
 
   handleJumpKickState(frameTime) {
     this.velocity.y += this.gravity * frameTime.secondsPassed;
@@ -425,27 +603,91 @@ export class Fighter {
       this.velocity.y = 0;
       this.changeState(fighterState.IDLE);
     }
+    if (
+      this.attackLanded &&
+      this.animationFrame >= this.animations[this.currentState].length - 1 &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
+    ) {
+      this.opponent.health -= 3;
+      this.opponent.changeState(fighterState.HURT4);
+
+      if (this.ki <= 100) {
+        this.ki += 1;
+      }
+      this.attackLanded = false;
+    }
   }
 
-  handleCrouchPunchInit() {}
+  handleCrouchPunchInit() {
+    this.attackSounds[fighterState.PUNCHCOMBO1].play();
+  }
   handleCrouchPunchState() {
-    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+    if (
+      this.attackLanded &&
+      this.animationFrame >= this.animations[this.currentState].length - 1 &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
+    ) {
+      this.opponent.health -= 5;
+      if (this.opponent.currentState == fighterState.CROUCH) {
+        this.opponent.changeState(fighterState.CROUCHHURT1);
+      } else {
+        this.opponent.changeState(fighterState.HURT1);
+      }
+      if (this.ki <= 100) {
+        this.ki += 3;
+      }
+      this.changeState(fighterState.CROUCH);
+    } else if (
+      this.animationFrame >=
+      this.animations[this.currentState].length - 1
+    ) {
       this.changeState(fighterState.CROUCH);
     }
   }
-  handleCrouchKickInit() {}
+  handleCrouchKickInit() {
+    this.attackSounds[fighterState.PUNCHCOMBO3].play();
+  }
 
-  handleCrouchKickState() {
-    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+  handleCrouchKickState(frameTime) {
+    if (
+      this.attackLanded &&
+      this.animationFrame >= this.animations[this.currentState].length - 1 &&
+      (this.opponent.currentState !== fighterState.STANDINGBLOCK ||
+        this.opponent.currentState !== fighterState.CROUCHINGBLOCK)
+    ) {
+      this.opponent.health -= 5;
+      if (this.opponent.currentState == fighterState.CROUCH) {
+        this.opponent.changeState(fighterState.CROUCHHURT2);
+      } else {
+        this.opponent.changeState(fighterState.FALL);
+      }
+
+      this.attackLanded = false;
+
+      if (this.ki <= 100) {
+        this.ki += 3;
+      }
+      this.changeState(fighterState.CROUCH);
+    } else if (
+      this.animationFrame >=
+      this.animations[this.currentState].length - 1
+    ) {
       this.changeState(fighterState.CROUCH);
     }
   }
 
-  handleKiRechargeInit() {}
+  handleKiRechargeInit() {
+    this.attackSounds[fighterState.KIRECHARGE].play();
+  }
 
   handleKiRechargeState(frameTime, ctx) {
     this.fire.setPosition({ x: 200, y: 200 });
     this.fire.draw(ctx);
+    if (this.ki <= 100) {
+      this.ki += 0.2;
+    }
     if (!control.isKiRecharge(this.playerId))
       this.changeState(fighterState.IDLE);
   }
@@ -454,10 +696,86 @@ export class Fighter {
 
   handleEnergyBallState() {
     if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      this.ki -= 5;
+      this.changeState(fighterState.IDLE);
+    }
+  }
+
+  handleHurt1Init() {
+    this.attackSounds[fighterState.HURT1].play();
+  }
+
+  handleHurt1State() {
+    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      this.changeState(fighterState.IDLE);
+    }
+  }
+  handleHurt2Init() {
+    this.attackSounds[fighterState.HURT2].play();
+  }
+
+  handleHurt2State() {
+    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      this.changeState(fighterState.IDLE);
+    }
+  }
+  handleHurt3Init() {
+    this.attackSounds[fighterState.HURT3].play();
+  }
+
+  handleHurt3State() {
+    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      this.changeState(fighterState.IDLE);
+    }
+  }
+  handleHurt4Init() {
+    this.attackSounds[fighterState.HURT2].play();
+  }
+
+  handleHurt4State() {
+    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      this.changeState(fighterState.FALL);
+    }
+  }
+
+  handleStandingBlockInit() {}
+
+  handleStandingBlockState() {
+    if (!control.isBlock(this.playerId)) this.changeState(fighterState.IDLE);
+  }
+
+  handleCrouchingBlockInit() {}
+  handleCrouchingBlockState() {
+    if (!control.isBlock(this.playerId)) this.changeState(fighterState.IDLE);
+  }
+
+  handleFallInit() {
+    this.attackSounds[fighterState.FALL].play();
+  }
+  handleFallState() {
+    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      this.changeState(fighterState.IDLE);
+    }
+  }
+
+  handleCrouchHurt1Init() {
+    this.attackSounds[fighterState.HURT3].play();
+  }
+
+  handleCrouchHurt1State() {
+    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
       this.changeState(fighterState.CROUCH);
     }
   }
 
+  handleCrouchHurt2Init() {
+    this.attackSounds[fighterState.HURT2].play();
+  }
+  handleCrouchHurt2State() {
+    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      this.changeState(fighterState.CROUCH);
+    }
+  }
   /**
    * Limit the fighters within the stage constraints
    *
@@ -506,8 +824,20 @@ export class Fighter {
     }
   }
 
+  /**
+   * check for the animation state and update the animation as required
+   *
+   * @param {Object} frameTime
+   * @param {Canvas Context} ctx
+   */
   updateAnimation(frameTime, ctx) {
-    if (frameTime.previousTime > this.animationTimer + 90) {
+    if (
+      frameTime.previousTime > this.animationTimer + 90 &&
+      this.currentState !== fighterState.HURT1 &&
+      this.currentState !== fighterState.HURT2 &&
+      this.currentState !== fighterState.HURT3 &&
+      this.currentState !== fighterState.HURT4
+    ) {
       this.animationTimer = frameTime.previousTime;
 
       this.boxes = this.getBoxes(
@@ -516,19 +846,44 @@ export class Fighter {
       this.animationFrame++;
 
       if (this.animationFrame >= this.animations[this.currentState].length) {
-        if (this.currentState == fighterState.CROUCH) {
-          this.animationFrame = this.animations[this.currentState].length - 1;
-        } else if (this.currentState == fighterState.KIRECHARGE) {
+        if (
+          this.currentState == fighterState.CROUCH ||
+          this.currentState == fighterState.KIRECHARGE ||
+          this.currentState == fighterState.STANDINGBLOCK ||
+          this.currentState == fighterState.CROUCHINGBLOCK
+        ) {
           this.animationFrame = this.animations[this.currentState].length - 1;
         } else {
           this.animationFrame = 0;
         }
       }
+    } else if (
+      frameTime.previousTime > this.animationTimer + 100 &&
+      (this.currentState === fighterState.HURT1 ||
+        this.currentState === fighterState.HURT2 ||
+        this.currentState === fighterState.HURT3 ||
+        this.currentState === fighterState.HURT4)
+    ) {
+      this.animationTimer = frameTime.previousTime;
+
+      this.boxes = this.getBoxes(
+        this.animations[this.currentState][this.animationFrame]
+      );
+      this.animationFrame++;
+
+      if (this.animationFrame >= this.animations[this.currentState].length) {
+        this.animationFrame = 0;
+      }
     }
   }
 
+  /**
+   * Game Loop
+   *
+   * @param {Object} frameTime
+   * @param {canvas context} ctx
+   */
   update(frameTime, ctx) {
-    // console.log(this.opponent.health);
     this.position.x += this.velocity.x * frameTime.secondsPassed;
     this.position.y += this.velocity.y * frameTime.secondsPassed;
 
@@ -538,8 +893,25 @@ export class Fighter {
     this.handleStageConstraints(frameTime, ctx);
     this.updateAnimation(frameTime, ctx);
     this.updateAttackBoxCollided(frameTime);
+
+    if (this.gameOver && control.isRestart(this.playerId)) {
+      location.reload();
+    } else if (this.gameOver && control.isMenu(this.playerId)) {
+      window.location.href = "./main.html";
+    }
+    if (this.opponent.CPUControlled) {
+      this.updateCPUControl();
+    }
   }
 
+  /**
+   * Drawing debugging boxes to visualize the hit states
+   *
+   * @param {context} ctx
+   * @param {Array} dimension
+   * @param {string} baseColor
+   * @returns
+   */
   drawDebugBox(ctx, dimension, baseColor) {
     if (!Array.isArray(dimension)) return;
 
@@ -571,10 +943,10 @@ export class Fighter {
     const boxes = this.getBoxes(frameKey);
 
     //PUSH BOX
-    this.drawDebugBox(ctx, Object.values(boxes.push), "#55FF55");
+    // this.drawDebugBox(ctx, Object.values(boxes.push), "#55FF55");
 
     //HIT BOX
-    this.drawDebugBox(ctx, Object.values(boxes.hit), "#FF0000");
+    // this.drawDebugBox(ctx, Object.values(boxes.hit), "#FF0000");
 
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -586,6 +958,12 @@ export class Fighter {
     ctx.stroke();
   }
 
+  /**
+   * Drawing required sprites
+   *
+   * @param {context} ctx
+   * @returns void
+   */
   draw(ctx) {
     const [[x, y, width, height]] = this.frames.get(
       this.animations[this.currentState][this.animationFrame]
@@ -600,11 +978,22 @@ export class Fighter {
     ctx.drawImage(this.image, x, y, width, height, drawX, drawY, width, height);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-    this.drawDebug(ctx);
+    // this.drawDebug(ctx);
     this.drawHealthBar(ctx);
     this.drawKiBar(ctx);
+
+    if (this.opponent.health <= 0) {
+      this.gameOver = true;
+      this.drawWinMessage(ctx);
+      return;
+    }
   }
 
+  /**
+   * Drawing the health bar of the fighters
+   *
+   * @param {context} ctx
+   */
   drawHealthBar(ctx) {
     if (this.healthBarPosition == "left") {
       ctx.font = "12px serif";
@@ -631,24 +1020,44 @@ export class Fighter {
     }
   }
 
+  drawWinMessage(ctx) {
+    ctx.font = "30px serif";
+    ctx.fillStyle = "red";
+    ctx.fillText(
+      `${this.name} won!`,
+      ctx.canvas.width / 2 - 60,
+      ctx.canvas.height / 2
+    );
+
+    ctx.font = "18px serif";
+    ctx.fillStyle = "black";
+    ctx.fillText(
+      "Press Space to restart or Esc to go to main Menu",
+      ctx.canvas.width / 2 - 180,
+      ctx.canvas.height / 2 + 30
+    );
+  }
+
   drawKiBar(ctx) {
     if (this.healthBarPosition == "left") {
       ctx.strokeStyle = "gray";
 
-      ctx.strokeRect(20, 50, 100, 10);
+      ctx.strokeRect(20, 45, 100, 5);
 
-      if (this.health >= 0) {
-        ctx.fillStyle = "blue";
-        ctx.fillRect(20, 50, this.health, 10);
-      }
+      ctx.fillStyle = "blue";
+      ctx.fillRect(20, 45, this.ki, 5);
     } else {
       ctx.strokeStyle = "gray";
-      ctx.strokeRect(ctx.canvas.width - 20 - 150, 50, 100, 10);
+      ctx.strokeRect(ctx.canvas.width - 20 - 100, 45, 100, 5);
 
-      if (this.health >= 0) {
-        ctx.fillStyle = "green";
-        ctx.fillRect(ctx.canvas.width - 20 - this.health, 50, this.health, 10);
-      }
+      ctx.fillStyle = "blue";
+      ctx.fillRect(ctx.canvas.width - 20 - this.ki, 45, this.ki, 5);
+    }
+  }
+
+  updateCPUControl() {
+    //PLayer Movement
+    if (this.position.x <= this.opponent.position.x) {
     }
   }
 }

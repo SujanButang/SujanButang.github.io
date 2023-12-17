@@ -1,10 +1,37 @@
 import { Fighter } from "./Fighter.js";
+import { KameHame } from "./KameHame.js";
 import { PushBox, fighterState } from "./constants.js";
 
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
 export class Goku extends Fighter {
+
+  attackSounds = {
+    [fighterState.PUNCH]: document.querySelector("audio#goku-hit-1"),
+    [fighterState.KICK]: document.querySelector("audio#goku-hit-1"),
+    [fighterState.PUNCHCOMBO1]: document.querySelector("audio#goku-hit-2"),
+    [fighterState.PUNCHCOMBO2]: document.querySelector("audio#goku-hit-3"),
+    [fighterState.PUNCHCOMBO3]: document.querySelector("audio#goku-hit-4"),
+    [fighterState.KICKCOMBO1]: document.querySelector("audio#goku-hit-4"),
+
+    [fighterState.HURT1]: document.querySelector("audio#goku-hurt-1"),
+    [fighterState.HURT2]: document.querySelector("audio#goku-hurt-2"),
+    [fighterState.HURT3]: document.querySelector("audio#goku-hurt-3"),
+
+    [fighterState.CROUCHHURT1]: document.querySelector("audio#goku-hurt-1"),
+    [fighterState.CROUCHHURT2]: document.querySelector("audio#goku-hurt-2"),
+
+    [fighterState.FALL]: document.querySelector("audio#goku-fall"),
+    [fighterState.KIRECHARGE]: document.querySelector("audio#goku-ki"),
+  };
   constructor(x, y, direction, playerId, healthBarPosition) {
     super("Goku", x, y, direction, playerId);
     this.image = document.querySelector('img[alt="goku"]');
+    this.frameTime = {
+      previousTime: 0,
+      secondsPassed: 0,
+    };
+    this.CPUControlled = false;
     this.frames = new Map([
       //IDLE
       ["idle-1", [[2, 357, 113, 111], PushBox.IDLE]],
@@ -180,13 +207,71 @@ export class Goku extends Fighter {
       ["kiRecharge-3", [[262, 5040, 128, 162], PushBox.IDLE]],
       ["kiRecharge-4", [[392, 5040, 128, 162], PushBox.IDLE]],
 
-      //ENERGY BALL
-      ["energyBall-1", [[2, 2144, 128, 129], PushBox.IDLE]],
-      ["energyBall-2", [[132, 2144, 128, 129], PushBox.IDLE]],
-      ["energyBall-3", [[262, 2144, 128, 129], PushBox.IDLE]],
-      ["energyBall-4", [[392, 2144, 128, 129], PushBox.IDLE]],
-      ["energyBall-5", [[522, 2144, 128, 129], PushBox.IDLE]],
-      ["energyBall-6", [[652, 2144, 128, 129], PushBox.IDLE]],
+      //HURT1
+      ["hurt1-1", [[2, 6214, 101, 148]]],
+      ["hurt1-2", [[105, 6214, 101, 148]]],
+      ["hurt1-3", [[208, 6214, 101, 148]]],
+      ["hurt1-4", [[311, 6214, 101, 148]]],
+
+      //HURT2
+      ["hurt2-1", [[2, 6366, 109, 138]]],
+      ["hurt2-2", [[113, 6366, 109, 138]]],
+
+      //HURT3
+      ["hurt3-1", [[2, 6508, 84, 129]]],
+      ["hurt3-2", [[88, 6508, 84, 129]]],
+
+      //HURT4
+      ["hurt4-1", [[296, 6957, 145, 115]]],
+      ["hurt4-2", [[443, 6957, 145, 115]]],
+      ["hurt4-3", [[2, 6957, 145, 115]]],
+      ["hurt4-4", [[149, 6957, 145, 115]]],
+
+      //CROUCH HURT 1
+      ["crouchHurt1-1", [[2, 6742, 126, 103]]],
+      ["crouchHurt1-2", [[130, 6742, 126, 103]]],
+
+      //CROUCH HURT 2
+      ["crouchHurt2-1", [[2, 6849, 113, 104]]],
+      ["crouchHurt2-2", [[117, 6849, 113, 104]]],
+
+      //FALL
+      ["fall-1", [[2, 7350, 153, 107]]],
+      ["fall-2", [[157, 7350, 153, 107]]],
+      ["fall-3", [[312, 7350, 153, 107]]],
+      ["fall-4", [[467, 7350, 153, 107]]],
+      ["fall-5", [[622, 7350, 153, 107]]],
+      ["fall-6", [[777, 7350, 153, 107]]],
+      ["fall-7", [[932, 7350, 153, 107]]],
+
+      // //ENERGY BALL
+      // ["energyBall-1", [[2, 2144, 128, 129], PushBox.IDLE]],
+      // ["energyBall-2", [[132, 2144, 128, 129], PushBox.IDLE]],
+      // ["energyBall-3", [[262, 2144, 128, 129], PushBox.IDLE]],
+      // ["energyBall-4", [[392, 2144, 128, 129], PushBox.IDLE]],
+      // ["energyBall-5", [[522, 2144, 128, 129], PushBox.IDLE]],
+      // ["energyBall-6", [[652, 2144, 128, 129], PushBox.IDLE]],
+
+      //STANDING BLOCK
+      ["standingBlock-1", [[2, 702, 97, 122]]],
+      ["standingBlock-2", [[101, 702, 97, 122]]],
+      ["standingBlock-3", [[200, 702, 97, 122]]],
+
+      //CROUCHING BLOCK
+      ["crouchingBlock-1", [[2, 828, 82, 101]]],
+      ["crouchingBlock-2", [[86, 828, 82, 101]]],
+      ["crouchingBlock-3", [[170, 828, 82, 101]]],
+
+      //ULTIMATE
+      ["ultimate-1", [[2, 5539, 135, 124]]],
+      ["ultimate-2", [[139, 5539, 135, 124]]],
+      ["ultimate-3", [[276, 5539, 135, 124]]],
+      ["ultimate-4", [[413, 5539, 135, 124]]],
+      ["ultimate-5", [[550, 5539, 135, 124]]],
+      ["ultimate-6", [[687, 5539, 135, 124]]],
+      ["ultimate-7", [[824, 5539, 135, 124]]],
+      ["ultimate-8", [[961, 5539, 135, 124]]],
+      ["ultimate-9", [[1098, 5539, 135, 124]]],
     ]);
 
     this.animations = {
@@ -302,13 +387,49 @@ export class Goku extends Fighter {
         "kiRecharge-4",
       ],
 
-      [fighterState.ENERGYBALL]: [
-        "energyBall-1",
-        "energyBall-2",
-        "energyBall-3",
-        "energyBall-4",
-        "energyBall-5",
-        "energyBall-6",
+      // [fighterState.ENERGYBALL]: [
+      //   "energyBall-1",
+      //   "energyBall-2",
+      //   "energyBall-3",
+      //   "energyBall-4",
+      //   "energyBall-5",
+      //   "energyBall-6",
+      // ],
+      [fighterState.STANDINGBLOCK]: [
+        "standingBlock-1",
+        "standingBlock-2",
+        "standingBlock-3",
+      ],
+      [fighterState.CROUCHINGBLOCK]: [
+        "crouchingBlock-1",
+        "crouchingBlock-2",
+        "crouchingBlock-3",
+      ],
+      [fighterState.HURT1]: ["hurt1-1", "hurt1-2", "hurt1-3", "hurt1-4"],
+      [fighterState.HURT2]: ["hurt2-1", "hurt2-2"],
+      [fighterState.HURT3]: ["hurt3-1", "hurt3-2"],
+      [fighterState.HURT4]: ["hurt4-1", "hurt4-2", "hurt4-3", "hurt4-4"],
+      [fighterState.FALL]: [
+        "fall-1",
+        "fall-2",
+        "fall-3",
+        "fall-4",
+        "fall-5",
+        "fall-6",
+        "fall-7",
+      ],
+      [fighterState.CROUCHHURT1]: ["crouchHurt1-1", "crouchHurt1-2"],
+      [fighterState.CROUCHHURT2]: ["crouchHurt2-1", "crouchHurt2-2"],
+      [fighterState.ULTIMATE]: [
+        "ultimate-1",
+        "ultimate-2",
+        "ultimate-3",
+        "ultimate-4",
+        "ultimate-5",
+        "ultimate-6",
+        "ultimate-7",
+        "ultimate-8",
+        "ultimate-9",
       ],
     };
 
@@ -317,5 +438,20 @@ export class Goku extends Fighter {
     };
     this.health = 150;
     this.healthBarPosition = healthBarPosition;
+    this.ki = 0;
+
+    this.states[fighterState.ULTIMATE] = {
+      init: this.handleUltimateInit.bind(this),
+      update: this.handleUltimateState.bind(this),
+    };
+  }
+
+  handleUltimateInit() {}
+  handleUltimateState() {
+    if (this.animationFrame >= this.animations[this.currentState].length - 1) {
+      const kame = new KameHame(this, this.frameTime);
+      kame.draw(ctx);
+      kame.update(this.frameTime,ctx);
+    }
   }
 }

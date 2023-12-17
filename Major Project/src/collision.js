@@ -1,3 +1,16 @@
+/**
+ * Checking collision
+ *
+ * @param {number} x1
+ * @param {number} y1
+ * @param {number} width1
+ * @param {number} height1
+ * @param {number} x2
+ * @param {number} y2
+ * @param {number} width2
+ * @param {number} height2
+ * @returns boolean
+ */
 export function rectangleOverlaps(
   x1,
   y1,
@@ -16,6 +29,12 @@ export function rectangleOverlaps(
   );
 }
 
+/**
+ *
+ * @param {Object} box1
+ * @param Object} box2
+ * @returns boolean
+ */
 export function boxOverlaps(box1, box2) {
   return rectangleOverlaps(
     box1.x,
@@ -29,6 +48,15 @@ export function boxOverlaps(box1, box2) {
   );
 }
 
+/**
+ *
+ * Getting the actual dimension of box passed
+ *
+ * @param {Object} position
+ * @param {number} direction
+ * @param {Object} box
+ * @returns Object
+ */
 export function getActualBoxDimensions(position, direction, box) {
   const x1 =
     direction == 1

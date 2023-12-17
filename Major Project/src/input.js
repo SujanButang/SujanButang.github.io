@@ -31,10 +31,20 @@ export const isKick = (id) => isKeyPressed(controls[id].keyboard[control.KICK]);
 export const isKiRecharge = (id) =>
   isKeyPressed(controls[id].keyboard[control.KIRECHARGE]);
 
+export const isBlock = (id) =>
+  isKeyPressed(controls[id].keyboard[control.BLOCK]);
+
 export const isEnergyBall = (id) =>
   isKeyPressed(controls[id].keyboard[control.ENERGYBALL]);
 
+export const isUltimate = (id) =>
+  isKeyPressed(controls[id].keyboard[control.ULTIMATE]);
 export const isForward = (id, direction) =>
   direction === fighterDirection.RIGHT ? isRight(id) : isLeft(id);
 export const isBackward = (id, direction) =>
   direction === fighterDirection.LEFT ? isRight(id) : isLeft(id);
+
+export const isRestart = (id) =>
+  isKeyPressed(controls[id].keyboard[control.RESTART]);
+export const isMenu = (id) =>
+  isKeyPressed(controls[id].keyboard[control.MENU]);
