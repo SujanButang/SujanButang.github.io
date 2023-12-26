@@ -1,0 +1,1 @@
+\COPY Categories FROM 'Categories.csv' WITH CSV HEADER;

@@ -1,0 +1,1 @@
+\COPY Shippers FROM 'Shippers.csv' WITH CSV HEADER;

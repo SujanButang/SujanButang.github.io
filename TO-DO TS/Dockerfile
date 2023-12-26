@@ -1,5 +1,5 @@
 # Use an official Node runtime as a parent image
-FROM node:14-alpine
+FROM node:16-alpine
 
 # Set the working directory in the container
 WORKDIR /app
@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose the port your app runs on
-EXPOSE 5173
+EXPOSE 3000
 
 # Define the command to run your app
-CMD ["npm", "run", "dev","--","--host"] 
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

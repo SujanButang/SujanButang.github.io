@@ -1,0 +1,1 @@
+\COPY Customers FROM 'Customers.csv' WITH CSV HEADER;

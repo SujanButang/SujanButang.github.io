@@ -1,0 +1,1 @@
+\COPY Products FROM 'Products.csv' WITH CSV HEADER;
