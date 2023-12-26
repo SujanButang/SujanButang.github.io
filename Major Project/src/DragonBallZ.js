@@ -16,7 +16,7 @@ export class DragonBallZ {
       new selectedFighterClass(
         80,
         STAGE_FLOOR,
-        fighterDirection.LEFT,
+        fighterDirection.RIGHT,
         0,
         "left"
       ),

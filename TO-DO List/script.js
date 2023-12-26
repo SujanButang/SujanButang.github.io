@@ -128,6 +128,4 @@ function updateTasksDisplay(filteredTasks = []) {
   addMarkDoneEventListeners();
 }
 
-// Initial display of tasks from local storage
-console.log(tasks);
 updateTasksDisplay(tasks);

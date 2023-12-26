@@ -80,7 +80,6 @@ export const controls = [
       [control.PUNCH]: "KeyJ",
       [control.KICK]: "KeyK",
       [control.KIRECHARGE]: "KeyI",
-      // [control.ENERGYBALL]: "KeyL",
       [control.BLOCK]: "KeyB",
       // [control.ULTIMATE]: "KeyU",
       [control.RESTART]: "Space",
