@@ -1,0 +1,6 @@
+SELECT
+    CEIL(
+        AVG(SALARY) - AVG(CAST(REPLACE (SALARY, '0', '') AS DECIMAL))
+    )
+FROM
+    EMPLOYEES;
