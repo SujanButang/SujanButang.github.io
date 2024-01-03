@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { registerUser, userLogin } from "../services/AuthService";
 
 interface AuthRequest {
@@ -8,19 +8,18 @@ interface AuthRequest {
   };
 }
 
-export const handleRegisterUser = async (req: AuthRequest, res: Response) => {
+export const handleRegisterUser = async (req: AuthRequest, res: Response, next:NextFunction) => {
   const { username, password } = req.body;
 
   try {
     const newUser = await registerUser(username, password);
     res.status(newUser.status).json(newUser.message);
   } catch (error) {
-    console.error("Error in controller:", error);
-    res.status(500).send("Internal Server Error");
+    next(error)
   }
 };
 
-export const handleUserLogin = async (req: AuthRequest, res: Response) => {
+export const handleUserLogin = async (req: AuthRequest, res: Response, next:NextFunction) => {
   const { username, password } = req.body;
   try {
     const login = await userLogin(username, password);
@@ -30,8 +29,7 @@ export const handleUserLogin = async (req: AuthRequest, res: Response) => {
       .status(login?.status)
       .json(login?.message);
   } catch (error) {
-    console.error("Error in controller:", error);
-    res.status(500).send("Internal Server Error");
+    next(error)
   }
 };
 

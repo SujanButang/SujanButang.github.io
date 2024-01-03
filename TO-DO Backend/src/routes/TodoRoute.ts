@@ -6,11 +6,13 @@ import {
   handleTaskEdit,
   handleToggleCompleted,
 } from "../controllers/TodoController";
+import { validateReqBody } from "../middlewares/validator";
+import { getTaskSchema } from "../schema/task";
 
 const router = Router();
 
 router.get("/", handleGetAllTasks);
-router.post("/", handleAddTask);
+router.post("/", validateReqBody(getTaskSchema), handleAddTask);
 router.delete("/:id", handleTaskDelete);
 router.put("/:id", handleTaskEdit);
 router.patch("/:id", handleToggleCompleted);

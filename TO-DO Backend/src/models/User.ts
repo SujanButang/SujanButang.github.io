@@ -41,3 +41,5 @@ class Users extends Model {
 
 sequelize.addModels([Users]);
 export default Users;
+
+

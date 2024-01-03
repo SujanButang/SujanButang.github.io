@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Users from "../models/User";
 import dotenv from "dotenv";
+import NotFoundError from "../errors/notFounError";
+import UnauthenticatedError from "../errors/unAuthenticatedError";
 dotenv.config();
 
 interface RegistrationResponse {
@@ -13,24 +15,19 @@ export const registerUser = async (
   username: string,
   password: string
 ): Promise<RegistrationResponse> => {
-  try {
-    const SALT = 10;
-    const hashedPassword = bcrypt.hashSync(password, SALT);
-    const userExists = await Users.findOne({
-      where: { username: username },
-    });
-    if (userExists) {
-      return { message: "User is already registered.", status: 403 };
-    }
-    const newUser = await Users.create({
-      username,
-      password: hashedPassword,
-    });
-    return { message: "New User Successfully created. 😁", status: 200 };
-  } catch (error) {
-    console.error("Error registering user:", error);
-    throw error;
+  const SALT = 10;
+  const hashedPassword = bcrypt.hashSync(password, SALT);
+  const userExists = await Users.findOne({
+    where: { username: username },
+  });
+  if (userExists) {
+    throw new UnauthenticatedError("User is already registered");
   }
+  const newUser = await Users.create({
+    username,
+    password: hashedPassword,
+  });
+  return { message: "New User Successfully created. 😁", status: 200 };
 };
 
 interface LoginResponse {
@@ -44,41 +41,34 @@ export const userLogin = async (
   username: string,
   password: string
 ): Promise<LoginResponse> => {
-  try {
-    const user = await Users.findOne({
-      where: { username: username },
-    });
-    if (!user) return { message: "User is not registered!!!", status: 404 };
-    const passwordMatch = bcrypt.compareSync(password, user.password);
-    if (passwordMatch) {
-      const accessToken = jwt.sign(
-        { id: user.id },
-        process.env.JWT_SECRET as string,
-        {
-          expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-        }
-      );
-      const refreshToken = jwt.sign(
-        { id: user.id },
-        process.env.JWT_SECRET as string,
-        {
-          expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-        }
-      );
+  const user = await Users.findOne({
+    where: { username: username },
+  });
+  if (!user) throw new NotFoundError("User not found");
+  const passwordMatch = bcrypt.compareSync(password, user.password);
+  if (passwordMatch) {
+    const accessToken = jwt.sign(
+      { id: user.id },
+      process.env.JWT_SECRET as string,
+      {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+      }
+    );
+    const refreshToken = jwt.sign(
+      { id: user.id },
+      process.env.JWT_SECRET as string,
+      {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+      }
+    );
 
-      return {
-        message: "Log in Success! 🎉",
-        status: 200,
-        accessToken,
-        refreshToken,
-      };
-    } else {
-      return { message: "Incorrect password.", status: 401 };
-    }
-  } catch (error) {
-    console.error("Error registering user:", error);
-    throw error;
+    return {
+      message: "Log in Success! 🎉",
+      status: 200,
+      accessToken,
+      refreshToken,
+    };
+  } else {
+    return { message: "Incorrect password.", status: 401 };
   }
 };
-
-
