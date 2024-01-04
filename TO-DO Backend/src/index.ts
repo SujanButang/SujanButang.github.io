@@ -1,14 +1,10 @@
 import express from "express";
 import config from "./config";
 import routes from "./routes/index";
-import sequelize from "./config/db";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { logger } from "./middlewares/logger";
-import {
-  genericErrorHandler,
-  notFoundError,
-} from "./middlewares/errorHandler";
+import { genericErrorHandler, notFoundError } from "./middlewares/errorHandler";
 
 const app = express();
 
@@ -25,9 +21,6 @@ app.use("/api", routes);
 app.use(genericErrorHandler);
 app.use(notFoundError);
 
-
 app.listen(config.serverPort, async () => {
-  await sequelize.sync();
-
   console.log(`Server started on http://localhost:${config.serverPort}`);
 });

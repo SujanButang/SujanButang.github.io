@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import Users from "../models/User";
 import dotenv from "dotenv";
 import NotFoundError from "../errors/notFounError";
 import UnauthenticatedError from "../errors/unAuthenticatedError";
+import UserModel from "../models/usersModel";
 dotenv.config();
 
 interface RegistrationResponse {
@@ -17,13 +17,12 @@ export const registerUser = async (
 ): Promise<RegistrationResponse> => {
   const SALT = 10;
   const hashedPassword = bcrypt.hashSync(password, SALT);
-  const userExists = await Users.findOne({
-    where: { username: username },
-  });
+  const userExists = await UserModel.getByUserName(username);
+  
   if (userExists) {
     throw new UnauthenticatedError("User is already registered");
   }
-  const newUser = await Users.create({
+  const newUser = await UserModel.create({
     username,
     password: hashedPassword,
   });
@@ -41,9 +40,7 @@ export const userLogin = async (
   username: string,
   password: string
 ): Promise<LoginResponse> => {
-  const user = await Users.findOne({
-    where: { username: username },
-  });
+  const user = await UserModel.getByUserName(username)
   if (!user) throw new NotFoundError("User not found");
   const passwordMatch = bcrypt.compareSync(password, user.password);
   if (passwordMatch) {

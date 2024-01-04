@@ -28,7 +28,7 @@ export const handleAddTask = async (req: TodoRequest, res: Response) => {
 
 interface DeleteRequest {
   params: {
-    id: string;
+    id: number;
   };
 }
 
@@ -46,7 +46,7 @@ export const handleTaskDelete = async (req: DeleteRequest, res: Response) => {
 
 interface IEditRequest {
   params: {
-    id: string;
+    id: number;
   };
   body: {
     title: string;

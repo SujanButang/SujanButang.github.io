@@ -6,7 +6,7 @@ import {
   handleTaskEdit,
   handleToggleCompleted,
 } from "../controllers/TodoController";
-import { validateReqBody } from "../middlewares/validator";
+import { validateReqBody, validateReqParams } from "../middlewares/validator";
 import { getTaskSchema } from "../schema/task";
 
 const router = Router();
