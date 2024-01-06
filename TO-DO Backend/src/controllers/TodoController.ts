@@ -1,3 +1,4 @@
+import { PaginationQuery } from "../interface/pagination";
 import {
   addTodo,
   deleteTodo,
@@ -82,8 +83,9 @@ export const handleToggleCompleted = async (
 export const handleGetAllTasks = async (req: Request, res: Response) => {
   try {
     const user = res.locals.user.id;
+    const query = req.query;
 
-    const tasks = await getAllTasks(user);
+    const tasks = await getAllTasks(query as unknown as PaginationQuery, user);
     res.status(tasks.status).json(tasks.tasks);
   } catch (error) {
     console.error("Error in controller:", error);

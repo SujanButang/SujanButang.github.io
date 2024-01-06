@@ -1,6 +1,8 @@
 import NotFoundError from "../errors/notFounError";
 import { ITodo } from "../interface/ITodo";
+import { PaginationQuery } from "../interface/pagination";
 import TodoModel from "../models/todoModel";
+import { getPaginationOptions } from "../utils/pagination";
 
 export const addTodo = async (
   title: string,
@@ -40,8 +42,10 @@ export const toggleCompleted = async (id: number) => {
   return { message: "Task status changed!", status: 200 };
 };
 
-export const getAllTasks = async (userId: number) => {
-  const tasks = await TodoModel.getAllTasks(userId);
+export const getAllTasks = async (query : PaginationQuery,userId: number) => {
+  const {page,size} = query;
+  const pageDetails = getPaginationOptions({page,size})
+  const tasks = await TodoModel.getAllTasks({...pageDetails,...query,userId});
   if (tasks.length == 0) throw new NotFoundError("Tasks list empty");
   return { tasks, status: 200 };
 };
